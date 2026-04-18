@@ -42,4 +42,4 @@ The site deploys automatically to GitHub Pages on push to `main` via `.github/wo
 
 ## Licence
 
-Content licensed for reuse with attribution. Third-party project names, logos, and marks belong to their respective owners.
+[CC0 1.0 Universal](./LICENSE) — the curated directory content is dedicated to the public domain. Third-party project names, logos, and marks belong to their respective owners.
