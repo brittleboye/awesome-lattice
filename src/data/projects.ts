@@ -264,6 +264,14 @@ export const categories: Category[] = [
     description: 'Organisations building on or using lattice technology.',
     projects: [
       {
+        name: 'Convex Foundation',
+        description:
+          'Non-profit stewarding the Convex lattice network, its open-source platform, and the Convergent Proof of Stake protocol.',
+        homepage: 'https://convex.world',
+        tags: ['foundation', 'open-source'],
+        badge: 'Foundation',
+      },
+      {
         name: 'Covia',
         description:
           'Building the universal grid for AI — federated agent ecosystems across organisational boundaries.',
