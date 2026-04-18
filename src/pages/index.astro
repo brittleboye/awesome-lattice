@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CategorySection from '../components/CategorySection.astro';
+import { categories, totalProjectCount } from '../data/projects';
+---
+
+<BaseLayout title="Awesome Lattice — a directory of lattice-powered tools & projects">
+  <section class="hero">
+    <h1>Awesome Lattice</h1>
+    <p class="lede">
+      A curated directory of tools, libraries, and projects built on lattice technology —
+      the Convex network, Covia orchestration grid, and the wider ecosystem.
+    </p>
+    <p class="meta">
+      {totalProjectCount} projects across {categories.length} categories.
+      Open source and community-driven.
+    </p>
+    <nav class="toc" id="ecosystem" aria-label="Categories">
+      {categories.map((c) => (
+        <a href={`#${c.id}`}>
+          <span>{c.title}</span>
+          <span class="count">{c.projects.length}</span>
+        </a>
+      ))}
+    </nav>
+  </section>
+
+  {categories.map((category) => <CategorySection category={category} />)}
+</BaseLayout>
