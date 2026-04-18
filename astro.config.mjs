@@ -10,4 +10,15 @@ export default defineConfig({
   base: isProd ? '/awesome-lattice' : '/',
   trailingSlash: 'ignore',
   integrations: [sitemap()],
+  vite: {
+    server: {
+      watch: {
+        // Windows-native chokidar watchers occasionally detach (Vite issue
+        // #4704, Astro #2015). Polling costs a little CPU but keeps HMR
+        // reliable through sleep/resume and junction-pathed workspaces.
+        usePolling: true,
+        interval: 300,
+      },
+    },
+  },
 });
