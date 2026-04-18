@@ -255,6 +255,126 @@ a:hover {
   border-radius: var(--radius-sm);
   background: var(--tag-bg);
   color: var(--tag-fg);
+  text-decoration: none;
+}
+a.tag:hover {
+  background: var(--tag-fg);
+  color: var(--bg);
+}
+.sidebar-sep {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: baseline;
+  margin-top: 1.5rem;
+}
+.tag-cloud-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--tag-bg);
+  color: var(--tag-fg);
+  font-family: var(--mono);
+  font-size: calc(0.7rem * var(--tag-weight, 1));
+  text-decoration: none;
+}
+.tag-cloud-item:hover {
+  background: var(--tag-fg);
+  color: var(--bg);
+}
+.tag-cloud-count {
+  opacity: 0.6;
+  font-size: 0.7em;
+}
+.tag-heading {
+  font-family: var(--mono);
+  color: var(--tag-fg);
+}
+.tag-group {
+  margin-top: 1.75rem;
+}
+.tag-group h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+.tag-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.tag-list li a {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  text-decoration: none;
+}
+.tag-list li a:hover {
+  border-color: var(--tag-fg);
+}
+.tag-list strong {
+  display: block;
+  margin-bottom: 0.15rem;
+}
+.tag-list span {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+.detail-related {
+  margin-top: 2rem;
+}
+.detail-related h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+.related-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.related-list li a {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  text-decoration: none;
+}
+.related-list li a:hover {
+  border-color: var(--tag-fg);
+}
+.related-cat {
+  font-size: 0.7rem;
+  font-family: var(--mono);
+  color: var(--text-dim);
+  display: block;
+  margin: 0.1rem 0 0.25rem;
+}
+.related-list strong {
+  display: block;
+}
+.detail-machine {
+  margin-top: 2rem;
+}
+.detail-machine h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.machine-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.9rem;
 }
 
 .layout {

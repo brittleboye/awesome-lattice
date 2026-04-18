@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Sidebar from '../components/Sidebar.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { categories } from '../data/projects';
-import { categoryItemList } from '../lib/structured-data';
+import { categoryItemList, breadcrumbList } from '../lib/structured-data';
 
 export function getStaticPaths() {
   // Skip the first category — it's served at the site root.
@@ -16,12 +16,19 @@ export function getStaticPaths() {
 const { category } = Astro.props;
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const itemList = categoryItemList(category, pageUrl);
+const base = import.meta.env.BASE_URL;
+const normBase = base.endsWith('/') ? base.slice(0, -1) : base;
+const siteRoot = new URL(normBase + '/', Astro.site).toString();
+const crumbs = breadcrumbList([
+  { name: 'Home', url: siteRoot },
+  { name: category.title, url: pageUrl },
+]);
 ---
 
 <BaseLayout
   title={`${category.title} — Awesome Lattice`}
   description={category.description}
-  structuredData={itemList}
+  structuredData={[itemList, crumbs]}
 >
   <div class="layout">
     <Sidebar activeId={category.id} />

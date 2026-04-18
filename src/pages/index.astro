@@ -3,17 +3,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Sidebar from '../components/Sidebar.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { categories } from '../data/projects';
-import { categoryItemList } from '../lib/structured-data';
+import { categoryItemList, breadcrumbList } from '../lib/structured-data';
 
 const active = categories[0];
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const itemList = categoryItemList(active, pageUrl);
+const crumbs = breadcrumbList([{ name: 'Home', url: pageUrl }]);
 ---
 
 <BaseLayout
   title="Awesome Lattice — a directory of lattice-powered tools & projects"
   description={`${active.description} Browse platforms, SDKs, MCP servers, apps, and organisations across the lattice ecosystem.`}
-  structuredData={itemList}
+  structuredData={[itemList, crumbs]}
 >
   <div class="layout">
     <Sidebar activeId={active.id} />

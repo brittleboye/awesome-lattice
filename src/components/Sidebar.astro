@@ -25,5 +25,11 @@ const joinBase = (id: string) => `${base}${base.endsWith('/') ? '' : '/'}${id}`;
         </li>
       );
     })}
+    <li class="sidebar-sep">
+      <a href={`${base}${base.endsWith('/') ? '' : '/'}tags/`} class={activeId === 'tags' ? 'active' : ''}>
+        <span>Tags</span>
+        <span class="count">↗</span>
+      </a>
+    </li>
   </ul>
 </aside>

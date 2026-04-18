@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { categories } from '../data/projects';
+import { allTags } from '../lib/tags';
 
 export const GET: APIRoute = ({ site }) => {
   const base = import.meta.env.BASE_URL;
@@ -22,11 +23,21 @@ export const GET: APIRoute = ({ site }) => {
   }
 
   lines.push('');
+  lines.push('## Tags');
+  lines.push('');
+  for (const t of allTags()) {
+    lines.push(`- [${t.tag}](${root}tags/${t.slug}/) (${t.projects.length})`);
+  }
+
+  lines.push('');
   lines.push('## Machine-readable');
   lines.push('');
   lines.push(`- [projects.json](${root}projects.json): all categories and entries as JSON`);
+  lines.push(`- [tags.json](${root}tags.json): every tag with project links`);
   lines.push(`- [llms-full.txt](${root}llms-full.txt): every entry in a single markdown file`);
   lines.push(`- [sitemap-index.xml](${root}sitemap-index.xml): sitemap`);
+  lines.push('');
+  lines.push('Every project page also publishes `.json` and `.md` alternates at the same path (e.g. `projects/core/convex.json`, `projects/core/convex.md`).');
   lines.push('');
   lines.push('## About');
   lines.push('');

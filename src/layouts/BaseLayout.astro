@@ -6,9 +6,11 @@ interface Props {
   description?: string;
   hideIntro?: boolean;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  jsonAlternate?: string;
+  markdownAlternate?: string;
 }
 
-const { title, description = 'A curated directory of lattice-powered tools, libraries, and resources.', hideIntro = false, structuredData } = Astro.props;
+const { title, description = 'A curated directory of lattice-powered tools, libraries, and resources.', hideIntro = false, structuredData, jsonAlternate, markdownAlternate } = Astro.props;
 const rawBase = import.meta.env.BASE_URL;
 const normBase = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
 const base = normBase + '/';
@@ -45,6 +47,8 @@ const extraJsonLd = structuredData
     <link rel="alternate" type="application/json" title="Awesome Lattice — projects" href={`${base}projects.json`} />
     <link rel="alternate" type="text/plain" title="llms.txt" href={`${base}llms.txt`} />
     <link rel="alternate" type="text/plain" title="llms-full.txt" href={`${base}llms-full.txt`} />
+    {jsonAlternate && <link rel="alternate" type="application/json" title={`${title} — JSON`} href={jsonAlternate} />}
+    {markdownAlternate && <link rel="alternate" type="text/markdown" title={`${title} — Markdown`} href={markdownAlternate} />}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />

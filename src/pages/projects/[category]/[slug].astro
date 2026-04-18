@@ -2,6 +2,8 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { categories, projectSlug, type Category, type Project } from '../../../data/projects';
 import mcpSnapshot from '../../../data/mcp-snapshot.json';
+import { breadcrumbList, relatedProjects, relatedHref } from '../../../lib/structured-data';
+import { tagHref } from '../../../lib/tags';
 
 interface McpTool { name: string; title: string | null; description: string | null }
 interface McpSnapshotEntry {
@@ -93,12 +95,26 @@ if (project.tags?.length) projectJsonLd.keywords = project.tags.join(', ');
 const mcpEntry: McpSnapshotEntry | null = project.mcp
   ? ((mcpSnapshot as { endpoints: Record<string, McpSnapshotEntry> }).endpoints[project.mcp.endpoint] ?? null)
   : null;
+
+const siteRoot = new URL(normBase + '/', Astro.site).toString();
+const categoryUrl = new URL(categoryHref, Astro.site).toString();
+const crumbs = breadcrumbList([
+  { name: 'Home', url: siteRoot },
+  { name: category.title, url: categoryUrl },
+  { name: project.name, url: pageUrl },
+]);
+
+const related = relatedProjects(project, category, 6);
+const jsonHref = `${normBase}/projects/${category.id}/${projectSlug(project)}.json`;
+const mdHref = `${normBase}/projects/${category.id}/${projectSlug(project)}.md`;
 ---
 
 <BaseLayout
   title={`${project.name} — Awesome Lattice`}
   description={project.description}
-  structuredData={projectJsonLd}
+  structuredData={[projectJsonLd, crumbs]}
+  jsonAlternate={jsonHref}
+  markdownAlternate={mdHref}
   hideIntro
 >
   <article class="project-detail">
@@ -126,7 +142,7 @@ const mcpEntry: McpSnapshotEntry | null = project.mcp
       )}
       {project.tags && project.tags.length > 0 && (
         <div class="tag-row detail-tags">
-          {project.tags.map((t) => <span class="tag">{t}</span>)}
+          {project.tags.map((t) => <a class="tag" href={tagHref(normBase, t)}>{t}</a>)}
         </div>
       )}
     </header>
@@ -189,6 +205,31 @@ const mcpEntry: McpSnapshotEntry | null = project.mcp
         )}
       </section>
     )}
+
+    {related.length > 0 && (
+      <section class="detail-related">
+        <h2>Related projects</h2>
+        <ul class="related-list">
+          {related.map((r) => (
+            <li>
+              <a href={relatedHref(normBase, r.category, r.project)}>
+                <strong>{r.project.name}</strong>
+                <span class="related-cat">{r.category.title}</span>
+                <span>{r.project.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="detail-machine">
+      <h2>Machine-readable</h2>
+      <ul class="machine-list">
+        <li><a href={jsonHref} rel="alternate" type="application/json">JSON</a> — full project metadata</li>
+        <li><a href={mdHref} rel="alternate" type="text/markdown">Markdown</a> — LLM-friendly summary</li>
+      </ul>
+    </section>
 
     <nav class="detail-foot">
       <a href={categoryHref}>← Back to {category.title}</a>

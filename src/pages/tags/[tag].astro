@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { allTags, tagHref, projectHref, tagSlug } from '../../lib/tags';
+import { breadcrumbList } from '../../lib/structured-data';
+
+export function getStaticPaths() {
+  return allTags().map((entry) => ({
+    params: { tag: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const normBase = base.endsWith('/') ? base.slice(0, -1) : base;
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const grouped = new Map<string, { title: string; items: typeof entry.projects }>();
+for (const p of entry.projects) {
+  let g = grouped.get(p.category.id);
+  if (!g) {
+    g = { title: p.category.title, items: [] };
+    grouped.set(p.category.id, g);
+  }
+  g.items.push(p);
+}
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${entry.tag} — Awesome Lattice`,
+  description: `Lattice-powered projects tagged "${entry.tag}".`,
+  url: pageUrl,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: entry.projects.length,
+    itemListElement: entry.projects.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'CreativeWork',
+        name: p.project.name,
+        description: p.project.description,
+        url: new URL(projectHref(normBase, p.category.id, p.project), Astro.site).toString(),
+      },
+    })),
+  },
+};
+
+const tagsHref = `${normBase}/tags/`;
+const siteRoot = new URL(normBase + '/', Astro.site).toString();
+const tagsUrl = new URL(tagsHref, Astro.site).toString();
+const crumbs = breadcrumbList([
+  { name: 'Home', url: siteRoot },
+  { name: 'Tags', url: tagsUrl },
+  { name: entry.tag, url: pageUrl },
+]);
+const jsonHref = `${normBase}/tags/${tagSlug(entry.tag)}.json`;
+---
+
+<BaseLayout
+  title={`${entry.tag} — Awesome Lattice`}
+  description={`Projects tagged "${entry.tag}" in the Awesome Lattice directory — ${entry.projects.length} entr${entry.projects.length === 1 ? 'y' : 'ies'} across the ecosystem.`}
+  structuredData={[itemList, crumbs]}
+  jsonAlternate={jsonHref}
+  hideIntro
+>
+  <article class="project-detail">
+    <nav class="detail-crumbs">
+      <a href={tagsHref}>← All tags</a>
+    </nav>
+    <header class="detail-head">
+      <h1>Tagged: <span class="tag-heading">{entry.tag}</span></h1>
+      <p class="lede">{entry.projects.length} {entry.projects.length === 1 ? 'project' : 'projects'} across the lattice ecosystem.</p>
+    </header>
+    {[...grouped.entries()].map(([catId, g]) => (
+      <section class="tag-group">
+        <h2>{g.title}</h2>
+        <ul class="tag-list">
+          {g.items.map(({ project, category }) => (
+            <li>
+              <a href={projectHref(normBase, category.id, project)}>
+                <strong>{project.name}</strong>
+                <span>{project.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    <nav class="detail-foot">
+      <a href={tagsHref}>← All tags</a>
+    </nav>
+  </article>
+</BaseLayout>

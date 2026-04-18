@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { allTags, tagHref } from '../../lib/tags';
+import { breadcrumbList } from '../../lib/structured-data';
+
+const tags = allTags();
+const base = import.meta.env.BASE_URL;
+const normBase = base.endsWith('/') ? base.slice(0, -1) : base;
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const siteRoot = new URL(normBase + '/', Astro.site).toString();
+const crumbs = breadcrumbList([
+  { name: 'Home', url: siteRoot },
+  { name: 'Tags', url: pageUrl },
+]);
+const jsonHref = `${normBase}/tags.json`;
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Tags — Awesome Lattice',
+  description: 'Browse every tag used across the lattice ecosystem directory.',
+  url: pageUrl,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: tags.length,
+    itemListElement: tags.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: t.tag,
+      url: new URL(tagHref(normBase, t.tag), Astro.site).toString(),
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title="Tags — Awesome Lattice"
+  description="Browse lattice-powered projects by tag — languages, protocols, categories, and more."
+  structuredData={[itemList, crumbs]}
+  jsonAlternate={jsonHref}
+  hideIntro
+>
+  <header class="page-head">
+    <h1>Tags</h1>
+    <p>Cross-cutting view of every project in the directory. Tag sizes scale with frequency.</p>
+  </header>
+  <div class="tag-cloud">
+    {tags.map((t) => (
+      <a
+        href={tagHref(normBase, t.tag)}
+        class="tag-cloud-item"
+        style={`--tag-weight: ${Math.min(1 + t.projects.length / 4, 3)}`}
+      >
+        <span class="tag-cloud-name">{t.tag}</span>
+        <span class="tag-cloud-count">{t.projects.length}</span>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
