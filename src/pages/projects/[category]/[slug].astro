@@ -71,8 +71,14 @@ const typeByCategory: Record<string, string> = {
   companies: 'Organization',
   web: 'WebSite',
   community: 'WebSite',
+  videos: 'VideoObject',
 };
-const schemaType = typeByCategory[category.id] ?? 'SoftwareApplication';
+const schemaType = project.video ? 'VideoObject' : (typeByCategory[category.id] ?? 'SoftwareApplication');
+
+function youtubeId(url: string): string | null {
+  const m = url.match(/[?&]v=([\w-]{6,})/) ?? url.match(/youtu\.be\/([\w-]{6,})/);
+  return m ? m[1] : null;
+}
 
 const projectJsonLd: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -91,6 +97,26 @@ if (project.repo && schemaType === 'SoftwareApplication') {
 }
 if (project.license) projectJsonLd.license = `https://spdx.org/licenses/${project.license}.html`;
 if (project.tags?.length) projectJsonLd.keywords = project.tags.join(', ');
+
+if (project.video) {
+  const vid = youtubeId(project.video.url);
+  projectJsonLd.contentUrl = project.video.url;
+  if (vid) {
+    projectJsonLd.embedUrl = `https://www.youtube.com/embed/${vid}`;
+    projectJsonLd.thumbnailUrl = [
+      `https://i.ytimg.com/vi/${vid}/maxresdefault.jpg`,
+      `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`,
+    ];
+  }
+  if (project.video.uploadDate) projectJsonLd.uploadDate = project.video.uploadDate;
+  if (project.video.durationISO) projectJsonLd.duration = project.video.durationISO;
+  if (project.video.speaker) {
+    projectJsonLd.author = { '@type': 'Person', name: project.video.speaker };
+  }
+  if (project.video.event) {
+    projectJsonLd.recordedAt = { '@type': 'Event', name: project.video.event };
+  }
+}
 
 const mcpEntry: McpSnapshotEntry | null = project.mcp
   ? ((mcpSnapshot as { endpoints: Record<string, McpSnapshotEntry> }).endpoints[project.mcp.endpoint] ?? null)
@@ -146,6 +172,30 @@ const mdHref = `${normBase}/projects/${category.id}/${projectSlug(project)}.md`;
         </div>
       )}
     </header>
+
+    {project.video && (() => {
+      const vid = project.video.url.match(/[?&]v=([\w-]{6,})/)?.[1] ?? project.video.url.match(/youtu\.be\/([\w-]{6,})/)?.[1];
+      return (
+        <section class="detail-video">
+          {vid && (
+            <div class="video-embed">
+              <iframe
+                src={`https://www.youtube.com/embed/${vid}`}
+                title={project.name}
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              />
+            </div>
+          )}
+          <p class="video-meta">
+            {project.video.speaker && <><strong>{project.video.speaker}</strong>{project.video.event && ' · '}</>}
+            {project.video.event && <span>{project.video.event}</span>}
+            {project.video.uploadDate && <span class="video-date"> · {project.video.uploadDate}</span>}
+          </p>
+        </section>
+      );
+    })()}
 
     {longParagraphs.length > 0 && (
       <section class="detail-body">

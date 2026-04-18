@@ -11,6 +11,14 @@ export interface McpConfig {
   transport?: 'streamable-http' | 'sse' | 'stdio';
 }
 
+export interface VideoInfo {
+  url: string;
+  uploadDate?: string;
+  durationISO?: string;
+  speaker?: string;
+  event?: string;
+}
+
 export interface Project {
   name: string;
   slug?: string;
@@ -26,6 +34,7 @@ export interface Project {
   licensing?: ProjectLicensing;
   license?: string;
   mcp?: McpConfig;
+  video?: VideoInfo;
 }
 
 export interface Category {
@@ -439,6 +448,63 @@ export const categories: Category[] = [
     ],
   },
   {
+    id: 'videos',
+    title: 'Videos & Talks',
+    description: 'Conference talks, demos, and presentations about lattice technology and Convex.',
+    projects: [
+      {
+        name: 'Lisp for Lattice Technology',
+        slug: 'lisp-for-lattice-technology',
+        description:
+          'Mike Anderson shows how Lisp — specifically Convex Lisp on the CVM — maps naturally onto lattice-based decentralised systems.',
+        longDescription:
+          'Talk given to the London Clojurians (August 2023). Mike Anderson, creator of Convex, walks through why Lisp is a good fit for programming lattice-structured state: immutable persistent data, homoiconic code, and the expressive power needed to describe convergent merges. Includes live CVM examples against a running Convex network.',
+        homepage: 'https://www.youtube.com/watch?v=bpKAQgcJRao',
+        tags: ['talk', 'lisp', 'cvm'],
+        badge: 'Talk',
+        video: {
+          url: 'https://www.youtube.com/watch?v=bpKAQgcJRao',
+          uploadDate: '2023-08-01',
+          speaker: 'Mike Anderson',
+          event: 'London Clojurians',
+        },
+      },
+      {
+        name: 'Beyond Blockchain — Convergent Consensus',
+        slug: 'beyond-blockchain-convergent-consensus',
+        description:
+          'Strange Loop 2022 talk introducing Convergent Proof of Stake — a decentralised consensus algorithm built on lattice mathematics rather than linear chains.',
+        longDescription:
+          'Mike Anderson presents at Strange Loop 2022. Topics: why blockchains are fundamentally a data-structure choice; how a lattice model delivers convergence without sequential ordering; the Convergent Proof of Stake algorithm; implications for throughput, finality, and the shape of decentralised applications.',
+        homepage: 'https://www.youtube.com/watch?v=XmDUkrOAhsY',
+        tags: ['talk', 'consensus', 'cpos'],
+        badge: 'Talk',
+        video: {
+          url: 'https://www.youtube.com/watch?v=XmDUkrOAhsY',
+          uploadDate: '2022-10-01',
+          speaker: 'Mike Anderson',
+          event: 'Strange Loop 2022',
+        },
+      },
+      {
+        name: 'Convex — Data Lattice and Convergent Storage',
+        slug: 'convex-data-lattice-and-convergent-storage',
+        description:
+          'Deep dive into the Convex data lattice — how content-addressed, convergently-merged storage replicates across peers without central coordination.',
+        longDescription:
+          'An introduction to Convex\'s integrated decentralised data storage and distribution, enabled by an encoded lattice architecture. Covers value hashing, canonical encoding, lattice merge semantics, and how this substrate underpins everything from account state to DLFS to LatticeMQ.',
+        homepage: 'https://www.youtube.com/watch?v=muReIjQGpQk',
+        tags: ['talk', 'storage', 'lattice'],
+        badge: 'Demo',
+        video: {
+          url: 'https://www.youtube.com/watch?v=muReIjQGpQk',
+          uploadDate: '2024-02-01',
+          event: 'Convex Foundation',
+        },
+      },
+    ],
+  },
+  {
     id: 'community',
     title: 'Community',
     description: 'Where the ecosystem hangs out — chat, code, and social.',
@@ -484,6 +550,18 @@ export const categories: Category[] = [
         description: 'Announcements, releases, and ecosystem news from the Convex team.',
         homepage: 'https://twitter.com/convex_world',
         tags: ['twitter', 'social'],
+      },
+      {
+        name: 'Convex on YouTube',
+        description: 'The Convex Foundation YouTube channel — talks, demos, and community content about the lattice platform.',
+        homepage: 'https://www.youtube.com/@convex-world',
+        tags: ['youtube', 'video'],
+      },
+      {
+        name: 'Mike Anderson on YouTube',
+        description: 'Mike Anderson\'s YouTube channel — Convex Lisp, lattice theory, and Convergent Proof of Stake talks.',
+        homepage: 'https://www.youtube.com/@mikejanderson',
+        tags: ['youtube', 'video'],
       },
     ],
   },
