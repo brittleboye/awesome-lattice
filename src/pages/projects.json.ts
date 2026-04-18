@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { categories, projectSlug } from '../data/projects';
+import mcpSnapshot from '../data/mcp-snapshot.json';
 
 export const GET: APIRoute = ({ site }) => {
   const base = import.meta.env.BASE_URL;
@@ -21,6 +22,9 @@ export const GET: APIRoute = ({ site }) => {
         url: `${root}${path}`,
         projects: category.projects.map((project) => {
           const slug = projectSlug(project);
+          const mcpEntry = project.mcp
+            ? (mcpSnapshot as { endpoints: Record<string, unknown> }).endpoints[project.mcp.endpoint] ?? null
+            : null;
           return {
             slug,
             name: project.name,
@@ -35,6 +39,7 @@ export const GET: APIRoute = ({ site }) => {
             status: project.status ?? null,
             licensing: project.licensing ?? null,
             license: project.license ?? null,
+            mcp: project.mcp ? { ...project.mcp, snapshot: mcpEntry } : null,
             url: `${root}projects/${category.id}/${slug}/`,
           };
         }),

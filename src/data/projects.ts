@@ -6,6 +6,11 @@ export interface ProjectLink {
   url: string;
 }
 
+export interface McpConfig {
+  endpoint: string;
+  transport?: 'streamable-http' | 'sse' | 'stdio';
+}
+
 export interface Project {
   name: string;
   slug?: string;
@@ -20,6 +25,7 @@ export interface Project {
   status?: ProjectStatus;
   licensing?: ProjectLicensing;
   license?: string;
+  mcp?: McpConfig;
 }
 
 export interface Category {
@@ -238,6 +244,10 @@ export const categories: Category[] = [
           'Hosted Convex testnet with a ready-to-use MCP endpoint — plug any MCP-capable agent straight into a live lattice network.',
         repo: 'https://github.com/Convex-Dev/spaces-testnet',
         tags: ['mcp', 'convex', 'testnet'],
+        mcp: {
+          endpoint: 'https://mikera1337-convex-testnet.hf.space/mcp',
+          transport: 'streamable-http',
+        },
       },
       {
         name: 'Covia Venue MCP',
@@ -253,6 +263,10 @@ export const categories: Category[] = [
           'Hosted Covia grid venue on Hugging Face Spaces — MCP-ready out of the box for experimenting with federated agent orchestration.',
         repo: 'https://github.com/covia-ai/covia-space',
         tags: ['mcp', 'covia', 'hosted'],
+        mcp: {
+          endpoint: 'https://mikera1337-covia-space.hf.space/mcp',
+          transport: 'streamable-http',
+        },
       },
       {
         name: 'Convex Plugin for Claude',

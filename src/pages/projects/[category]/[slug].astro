@@ -1,6 +1,18 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { categories, projectSlug, type Category, type Project } from '../../../data/projects';
+import mcpSnapshot from '../../../data/mcp-snapshot.json';
+
+interface McpTool { name: string; title: string | null; description: string | null }
+interface McpSnapshotEntry {
+  transport?: string;
+  lastCheckedAt: string;
+  ok: boolean;
+  error?: string;
+  serverInfo?: { name?: string; title?: string; version?: string } | null;
+  toolCount?: number;
+  tools?: McpTool[];
+}
 
 export function getStaticPaths() {
   const paths: Array<{ params: { category: string; slug: string }; props: { category: Category; project: Project } }> = [];
@@ -77,6 +89,10 @@ if (project.repo && schemaType === 'SoftwareApplication') {
 }
 if (project.license) projectJsonLd.license = `https://spdx.org/licenses/${project.license}.html`;
 if (project.tags?.length) projectJsonLd.keywords = project.tags.join(', ');
+
+const mcpEntry: McpSnapshotEntry | null = project.mcp
+  ? ((mcpSnapshot as { endpoints: Record<string, McpSnapshotEntry> }).endpoints[project.mcp.endpoint] ?? null)
+  : null;
 ---
 
 <BaseLayout
@@ -132,6 +148,45 @@ if (project.tags?.length) projectJsonLd.keywords = project.tags.join(', ');
             </li>
           ))}
         </ul>
+      </section>
+    )}
+
+    {project.mcp && (
+      <section class="detail-mcp">
+        <h2>MCP Endpoint</h2>
+        <div class="mcp-endpoint">
+          <code>{project.mcp.endpoint}</code>
+          <span class="pill pill-transport">{project.mcp.transport ?? 'streamable-http'}</span>
+        </div>
+        {mcpEntry?.ok === false && (
+          <p class="mcp-status mcp-status-fail">
+            Probe failed at {mcpEntry.lastCheckedAt}: <code>{mcpEntry.error}</code>
+            {mcpEntry.tools && <span> — showing last good snapshot.</span>}
+          </p>
+        )}
+        {mcpEntry?.serverInfo && (
+          <p class="mcp-server">
+            <strong>{mcpEntry.serverInfo.title ?? mcpEntry.serverInfo.name}</strong>
+            {mcpEntry.serverInfo.version && <span class="mcp-version"> v{mcpEntry.serverInfo.version}</span>}
+          </p>
+        )}
+        {mcpEntry?.tools && mcpEntry.tools.length > 0 && (
+          <>
+            <h3>Tools ({mcpEntry.tools.length})</h3>
+            <ul class="mcp-tools">
+              {mcpEntry.tools.map((t) => (
+                <li>
+                  <div class="mcp-tool-head">
+                    <code class="mcp-tool-name">{t.name}</code>
+                    {t.title && <span class="mcp-tool-title">{t.title}</span>}
+                  </div>
+                  {t.description && <p class="mcp-tool-desc">{t.description.split('\n')[0]}</p>}
+                </li>
+              ))}
+            </ul>
+            <p class="mcp-checked">Last checked {mcpEntry.lastCheckedAt}</p>
+          </>
+        )}
       </section>
     )}
 

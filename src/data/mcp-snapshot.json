@@ -1,0 +1,348 @@
+{
+  "generatedAt": "2026-04-18T13:40:43.686Z",
+  "endpoints": {
+    "https://mikera1337-convex-testnet.hf.space/mcp": {
+      "transport": "streamable-http",
+      "lastCheckedAt": "2026-04-18T13:40:43.196Z",
+      "ok": true,
+      "serverInfo": {
+        "networkId": "6fe865a30d220266b583f088d8eb31f447fcb2e5f97d3a87cc447045c863f852",
+        "title": "Convex MCP",
+        "peerKey": "af1f018f39a054cb7f890357bce07f28d31aed508840708f43b114b8fa2b1613",
+        "name": "convex-mcp",
+        "version": "0.8.3-SNAPSHOT"
+      },
+      "toolCount": 33,
+      "tools": [
+        {
+          "name": "query",
+          "title": "Convex Query",
+          "description": "Execute a Convex Lisp query. Queries are read-only, free, and instant.\n\nCommon patterns:\n- (balance #13) — coin balance in copper (1 CVM = 1,000,000,000 copper)\n- *balance* — caller's own balance\n- (account #13) — full account record\n- (@convex.fungible/balance #TOKEN #USER) — fungible token balance\n- (call #ACTOR (fn-name args)) — call actor function read-only\n- (lookup #ADDR 'symbol) — look up a definition\n- *state* — full network state (large!)"
+        },
+        {
+          "name": "prepare",
+          "title": "Prepare Transaction",
+          "description": "Prepare a Convex transaction for signing. Returns a hash to pass to 'signAndSubmit' or 'submit'.\n\nCommon source patterns:\n- Transfer: (transfer #DEST AMOUNT)\n- Deploy actor: (deploy '(do (defn greet [x] (str \"Hello \" x)) (export greet)))\n- Call actor: (call #ACTOR (function-name arg1 arg2))\n- Define value: (def my-var 42)\n- Set controller: (set-controller #ADDR)\n- Register CNS: (call #9 (cns-update 'my.name *address*))\n\nAmounts in copper (1 CVM = 1,000,000,000 copper)."
+        },
+        {
+          "name": "transact",
+          "title": "Convex Transaction (Quick)",
+          "description": "Execute a Convex transaction in one step. Sends seed over network — use HTTPS with trusted peers only. For sensitive operations prefer prepare → signAndSubmit.\n\nTransactions update global state atomically. Amounts in copper (1 CVM = 1,000,000,000 copper)."
+        },
+        {
+          "name": "encode",
+          "title": "Encode CAD3",
+          "description": "Encode a CVM literal into CAD3 multi-cell hex bytes."
+        },
+        {
+          "name": "decode",
+          "title": "Decode CAD3",
+          "description": "Decode CAD3 multi-cell hex bytes back into a CVM literal."
+        },
+        {
+          "name": "submit",
+          "title": "Submit Prepared Transaction",
+          "description": "Submit a previously prepared transaction with hash, public key, and signature."
+        },
+        {
+          "name": "signAndSubmit",
+          "title": "Sign and Submit Transaction",
+          "description": "Sign and submit a prepared transaction. Use after 'prepare'. Sends seed over network — HTTPS only."
+        },
+        {
+          "name": "hash",
+          "title": "Hash Calculator",
+          "description": "Compute a SHA-256 or SHA3 hash of supplied data."
+        },
+        {
+          "name": "sign",
+          "title": "Value Signer",
+          "description": "Sign raw hex data with an Ed25519 seed. For transactions, sign the 'hash' from prepare."
+        },
+        {
+          "name": "peerStatus",
+          "title": "Peer Status",
+          "description": "Return current Convex peer status including consensus point and network state."
+        },
+        {
+          "name": "keyGen",
+          "title": "Key Pair Generator",
+          "description": "Generate a new Ed25519 key pair. Provide a seed for deterministic output, or omit for secure random."
+        },
+        {
+          "name": "validate",
+          "title": "Signature Validator",
+          "description": "Validate an Ed25519 signature against a public key and message bytes."
+        },
+        {
+          "name": "createAccount",
+          "title": "Create Account",
+          "description": "Create a new Convex account with the specified public key. Optionally fund via faucet (1 CVM = 1,000,000,000 copper, max 1 CVM)."
+        },
+        {
+          "name": "describeAccount",
+          "title": "Describe Account",
+          "description": "Get account info: balance, sequence number, defined symbols with metadata."
+        },
+        {
+          "name": "lookup",
+          "title": "Symbol Lookup",
+          "description": "Look up a symbol in a Convex account environment. Returns existence, value (with optional path navigation), and metadata."
+        },
+        {
+          "name": "resolveCNS",
+          "title": "Resolve CNS Name",
+          "description": "Resolve a CNS name to its record: value (usually an address), controller, metadata, and child node."
+        },
+        {
+          "name": "getTransaction",
+          "title": "Get Transaction",
+          "description": "Look up a transaction by hash. Returns signed data, consensus position, and execution result."
+        },
+        {
+          "name": "getBalance",
+          "title": "Get Balance",
+          "description": "Get coin or token balance for an account. Returns balance in copper (1 CVM = 1,000,000,000 copper)."
+        },
+        {
+          "name": "transfer",
+          "title": "Transfer",
+          "description": "Transfer CVM coins or fungible tokens to another account. Amounts in copper for CVM (1 CVM = 1,000,000,000 copper)."
+        },
+        {
+          "name": "watchState",
+          "title": "Watch State",
+          "description": "Watch a path in the global CVM state for changes. Returns a watchId. Changes are delivered as SSE notifications on the session's GET /mcp stream. Requires an active session (Mcp-Session-Id)."
+        },
+        {
+          "name": "unwatchState",
+          "title": "Unwatch State",
+          "description": "Stop watching state paths. Provide a watchId to remove a single watch, or a path to remove all watches whose path starts with the given prefix. At least one of watchId or path must be provided."
+        },
+        {
+          "name": "signingServiceInfo",
+          "title": "Signing Service Info",
+          "description": "Check if the peer's signing service is available. No authentication required."
+        },
+        {
+          "name": "signingCreateKey",
+          "title": "Create Signing Key",
+          "description": "Create a new Ed25519 key pair in the signing service. Private key stored encrypted server-side. Authenticated."
+        },
+        {
+          "name": "signingListKeys",
+          "title": "List Signing Keys",
+          "description": "List all public keys stored in the signing service for the authenticated identity."
+        },
+        {
+          "name": "signingSign",
+          "title": "Sign with Stored Key",
+          "description": "Sign hex-encoded bytes using a stored signing service key. Authenticated."
+        },
+        {
+          "name": "signingGetJWT",
+          "title": "Get Self-Signed JWT",
+          "description": "Create a self-signed EdDSA JWT (did:key identity) using a stored signing key. Authenticated."
+        },
+        {
+          "name": "signingTransact",
+          "title": "Transact via Signing Service",
+          "description": "Execute a Convex transaction using a stored signing key. Private key never leaves the server. Authenticated."
+        },
+        {
+          "name": "signingCreateAccount",
+          "title": "Create Account via Signing Service",
+          "description": "Create a new signing key and on-chain account in one step. Optionally fund via faucet. Authenticated."
+        },
+        {
+          "name": "signingListAccounts",
+          "title": "List Signing Accounts",
+          "description": "List signing keys and associated on-chain addresses for the authenticated identity."
+        },
+        {
+          "name": "signingImportKey",
+          "title": "Import Key (Signing Service)",
+          "description": "Import an Ed25519 seed into the signing service. Elevated: first call returns confirmUrl for browser approval, retry with confirmToken."
+        },
+        {
+          "name": "signingExportKey",
+          "title": "Export Key (Signing Service)",
+          "description": "Export (reveal) the private seed for a stored key. Elevated: first call returns confirmUrl, retry with confirmToken."
+        },
+        {
+          "name": "signingDeleteKey",
+          "title": "Delete Key (Signing Service)",
+          "description": "Permanently delete a key from the signing service. Irreversible. Elevated: first call returns confirmUrl, retry with confirmToken."
+        },
+        {
+          "name": "signingChangePassphrase",
+          "title": "Change Passphrase (Signing Service)",
+          "description": "Change the passphrase for a stored signing key. Elevated: first call returns confirmUrl, retry with confirmToken."
+        }
+      ]
+    },
+    "https://mikera1337-covia-space.hf.space/mcp": {
+      "transport": "streamable-http",
+      "lastCheckedAt": "2026-04-18T13:40:43.686Z",
+      "ok": true,
+      "serverInfo": {
+        "title": "Covia Space Venue",
+        "name": "covia-grid-mcp",
+        "version": "0.0.2-SNAPSHOT"
+      },
+      "toolCount": 30,
+      "tools": [
+        {
+          "name": "jvm:urlEncode",
+          "title": "URL Encode",
+          "description": "URL encodes a string using JVM operations"
+        },
+        {
+          "name": "jvm:stringConcat",
+          "title": "JVM String Concatenation",
+          "description": "Concatenates two strings using JVM operations"
+        },
+        {
+          "name": "jvm:urlDecode",
+          "title": "URL Decode",
+          "description": "URL decodes a string using JVM operations"
+        },
+        {
+          "name": "test:never",
+          "title": "Never Operation",
+          "description": "An operation that never completes, i.e. its status will remain PENDING"
+        },
+        {
+          "name": "test:error",
+          "title": "Fail Operation",
+          "description": "Always fails, regardless of input"
+        },
+        {
+          "name": "test:echo",
+          "title": "Echo Operation",
+          "description": "Returns the input unchanged. Useful for testing or as a generalised identity function."
+        },
+        {
+          "name": "orchestrator",
+          "title": "Test orchestration",
+          "description": "Runs a sequence of operations"
+        },
+        {
+          "name": "test:delay",
+          "title": "Delay Operation",
+          "description": "Runs another op after a delay"
+        },
+        {
+          "name": "test:random",
+          "title": "Random Data Generator",
+          "description": "Generates a specified number of random bytes using a cryptographically secure random number generator"
+        },
+        {
+          "name": "langchain:openai",
+          "title": "GPT-5 nano",
+          "description": "Chat with OpenAI GPT-5 nano"
+        },
+        {
+          "name": "langchain:ollama:qwen3",
+          "title": "Qwen model chat",
+          "description": "This is an example operation that gets a response from the Qwen3 LLM via ollama"
+        },
+        {
+          "name": "langchain:ollama",
+          "title": "Ollama model chat",
+          "description": "Example operation that chats with a local Ollama-served LLM via LangChainAdapter"
+        },
+        {
+          "name": "langchain:openai",
+          "title": "Gemini model chat",
+          "description": "Example operation that chats with a Gemini endpoint via LangChainAdapter (OpenAI-compatible route)"
+        },
+        {
+          "name": "langchain:openai",
+          "title": "Deepseek chat",
+          "description": "Example operation that chats with a DeepSeek endpoint via LangChainAdapter (OpenAI-compatible route)"
+        },
+        {
+          "name": "langchain:openai",
+          "title": "OpenAI model chat",
+          "description": "Example operation that chats with an OpenAI-compatible endpoint via LangChainAdapter"
+        },
+        {
+          "name": "grid:run",
+          "title": "Grid Run",
+          "description": "Run a Covia grid operation on this venue or an optional remote venue"
+        },
+        {
+          "name": "grid:invoke",
+          "title": "Grid Invoke",
+          "description": "Submit a Covia grid operation and return the job status"
+        },
+        {
+          "name": "grid:jobResult",
+          "title": "Grid Job Result",
+          "description": "Wait for a Covia grid job to finish and return its output"
+        },
+        {
+          "name": "grid:jobStatus",
+          "title": "Grid Job Status",
+          "description": "Fetch the current status of a Covia grid job by ID"
+        },
+        {
+          "name": "convex:transact",
+          "title": "Convex Transact",
+          "description": "Execute a transaction against a Convex peer"
+        },
+        {
+          "name": "convex:query",
+          "title": "Convex Query",
+          "description": "Execute a read-only query against a Convex peer"
+        },
+        {
+          "name": "http",
+          "title": "HTTP GET Operation",
+          "description": "Performs a simple HTTP GET request using the HTTPAdapter"
+        },
+        {
+          "name": "http",
+          "title": "HTTP Query Parameters Example",
+          "description": "Demonstrates how to use query parameters with the HTTP adapter for API calls"
+        },
+        {
+          "name": "orchestrator",
+          "title": "Practical Google Search Orchestration",
+          "description": "Performs a Google search using the HTTPAdapter - demonstrates proper URL construction"
+        },
+        {
+          "name": "orchestrator",
+          "title": "Google Search Orchestration",
+          "description": "Performs a Google search by constructing the URL using stringConcat and urlEncode operations"
+        },
+        {
+          "name": "http",
+          "title": "HTTP POST Operation",
+          "description": "Performs an HTTP POST request using the HTTPAdapter"
+        },
+        {
+          "name": "orchestrator",
+          "title": "Google Search Orchestration",
+          "description": "Performs a Google search using the HTTPAdapter and returns the search results"
+        },
+        {
+          "name": "orchestrator",
+          "title": "Advanced Google Search Orchestration",
+          "description": "Performs a Google search using the HTTPAdapter with dynamic query parameters"
+        },
+        {
+          "name": "mcp:tools:call",
+          "title": "MCP Tool Call",
+          "description": "Runs a remote MCP tool via HTTP(s)"
+        },
+        {
+          "name": "mcp:tools:list",
+          "title": "MCP Tools List",
+          "description": "Lists available MCP tools from a remote server"
+        }
+      ]
+    }
+  }
+}

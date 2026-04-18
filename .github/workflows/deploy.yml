@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    # Nightly refresh so MCP tools snapshots stay fresh.
+    - cron: '17 5 * * *'
   workflow_dispatch:
 
 permissions:
@@ -37,6 +40,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Probe MCP endpoints
+        run: pnpm probe-mcp
+        continue-on-error: true
 
       - name: Build
         run: pnpm build

@@ -576,3 +576,109 @@ a:hover {
     min-width: 0;
   }
 }
+
+.detail-mcp {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.detail-mcp h2 {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+.detail-mcp h3 {
+  font-size: 0.9rem;
+  margin: 1.25rem 0 0.75rem;
+  color: var(--fg-dim);
+  letter-spacing: 0.02em;
+}
+.mcp-endpoint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+.mcp-endpoint code {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  background: var(--bg-elev);
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  word-break: break-all;
+}
+.pill-transport {
+  border-color: rgba(183, 148, 244, 0.35);
+  color: var(--accent-2);
+}
+.mcp-status {
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+  margin: 0.5rem 0;
+}
+.mcp-status-fail {
+  color: #f0a078;
+}
+.mcp-status code {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+.mcp-server {
+  margin: 0.25rem 0 0;
+  color: var(--fg-dim);
+  font-size: 0.9rem;
+}
+.mcp-server strong {
+  color: var(--fg);
+}
+.mcp-version {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  margin-left: 0.35rem;
+}
+.mcp-tools {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.mcp-tools li {
+  padding: 0.7rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.mcp-tool-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.mcp-tool-name {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+.mcp-tool-title {
+  color: var(--fg);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.mcp-tool-desc {
+  margin: 0.35rem 0 0;
+  color: var(--fg-dim);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.mcp-checked {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  margin: 1rem 0 0;
+}
