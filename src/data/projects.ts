@@ -1,11 +1,25 @@
+export type ProjectStatus = 'active' | 'beta' | 'experimental' | 'archived' | 'planned';
+export type ProjectLicensing = 'open-source' | 'commercial' | 'mixed' | 'public';
+
+export interface ProjectLink {
+  label: string;
+  url: string;
+}
+
 export interface Project {
   name: string;
+  slug?: string;
   description: string;
+  longDescription?: string;
   homepage?: string;
   repo?: string;
   docs?: string;
+  links?: ProjectLink[];
   tags?: string[];
   badge?: string;
+  status?: ProjectStatus;
+  licensing?: ProjectLicensing;
+  license?: string;
 }
 
 export interface Category {
@@ -13,6 +27,22 @@ export interface Category {
   title: string;
   description: string;
   projects: Project[];
+}
+
+export function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+export function projectSlug(project: Project): string {
+  return project.slug ?? slugify(project.name);
+}
+
+export function projectPath(categoryId: string, project: Project): string {
+  return `projects/${categoryId}/${projectSlug(project)}/`;
 }
 
 export const categories: Category[] = [
@@ -25,21 +55,42 @@ export const categories: Category[] = [
         name: 'Convex',
         description:
           'Decentralised lattice network and execution engine. Stateful Internet powered by Convergent Proof of Stake.',
+        longDescription:
+          'Convex is a decentralised, lattice-based network that securely hosts, executes, and persists both code and data. It realises the vision of a Stateful Internet — a foundation for digital economies, federated systems, and cross-organisational collaboration.\n\nThe platform is built around Convergent Proof of Stake, a high-throughput consensus protocol that finalises transactions deterministically without coordination between peers. Application state is stored as lattice-structured immutable data, so independent actors can always reach the same result without central authority or locking.\n\nConvex is open-source and stewarded by the Convex Foundation.',
         homepage: 'https://convex.world',
         repo: 'https://github.com/Convex-Dev/convex',
         docs: 'https://docs.convex.world',
         tags: ['java', 'lattice', 'consensus'],
         badge: 'Platform',
+        status: 'active',
+        licensing: 'open-source',
+        license: 'Apache-2.0',
+        links: [
+          { label: 'Whitepaper', url: 'https://docs.convex.world/cvm-whitepaper.pdf' },
+          { label: 'Blog', url: 'https://docs.convex.world/blog' },
+          { label: 'Discord', url: 'https://discord.com/invite/xfYGq4CT7v' },
+          { label: 'GitHub Org', url: 'https://github.com/Convex-Dev' },
+        ],
       },
       {
         name: 'Covia',
         description:
           'Federated AI orchestration grid built on Convex lattice. Collaboration across clouds and jurisdictions with built-in governance.',
+        longDescription:
+          'Covia is open-source infrastructure for federated AI orchestration. It lets AI models, agents, and data collaborate across organisational boundaries, clouds, and jurisdictions — with built-in governance and without centralising control.\n\nBuilt on top of Convex lattice technology, a Covia venue exposes agents, assets, orchestrations, vaults, and a grid execution environment via REST and MCP. Agents can invoke each other, share context, persist state, and run composite workflows without a single trusted coordinator.',
         homepage: 'https://covia.ai',
         repo: 'https://github.com/covia-ai/covia',
         docs: 'https://docs.covia.ai',
         tags: ['java', 'agents', 'orchestration'],
         badge: 'Platform',
+        status: 'active',
+        licensing: 'mixed',
+        license: 'Apache-2.0',
+        links: [
+          { label: 'Hosted grid', url: 'https://app.covia.ai' },
+          { label: 'Discord', url: 'https://discord.gg/fywdrKd8QT' },
+          { label: 'GitHub Org', url: 'https://github.com/covia-ai' },
+        ],
       },
     ],
   },
@@ -52,38 +103,63 @@ export const categories: Category[] = [
         name: 'Convex DB',
         description:
           'Lattice-backed SQL database with JDBC and PostgreSQL wire compatibility — full relational tooling over convergent state.',
+        longDescription:
+          'Convex DB is a relational database built on the Convex lattice. It speaks SQL via JDBC and the PostgreSQL wire protocol, so existing tooling — drivers, ORMs, query builders, BI tools — works out of the box. Under the hood, rows and indexes are stored as lattice-structured data that merges convergently, giving you standard relational semantics on top of a decentralised, replicated state layer.\n\nIntended for applications that need both the ergonomics of SQL and the properties of lattice storage: multi-peer replication, content-addressed history, and deterministic merges.',
         repo: 'https://github.com/Convex-Dev/convex',
         docs: 'https://docs.convex.world',
         tags: ['sql', 'jdbc', 'database'],
+        status: 'beta',
+        licensing: 'open-source',
+        license: 'Apache-2.0',
       },
       {
         name: 'DLFS',
         description:
           'Decentralised Lattice File System — a content-addressed, CRDT-mergeable filesystem with WebDAV and Java NIO compatibility. Mount it anywhere.',
+        longDescription:
+          'DLFS — the Decentralised Lattice File System — is a content-addressed, CRDT-mergeable filesystem that runs on the Convex lattice. It exposes a familiar hierarchical namespace with WebDAV and Java NIO compatibility, so you can mount it as a drive or access it through standard file APIs.\n\nEvery directory and file is a lattice value. Concurrent writes from independent peers merge deterministically, without a central coordinator. DLFS is designed to store both user-facing documents and machine-generated assets — datasets, model weights, blobs — with strong integrity guarantees and efficient sync.',
         homepage: 'https://convex.world/dlfs',
         repo: 'https://github.com/Convex-Dev/convex',
         tags: ['filesystem', 'crdt', 'webdav'],
+        status: 'active',
+        licensing: 'open-source',
+        license: 'Apache-2.0',
       },
       {
         name: 'Convex Social',
         description:
           'Peer-to-peer social network primitives on the lattice. Users own cryptographically signed feeds; nodes selectively replicate based on follow relationships.',
+        longDescription:
+          'Convex Social provides peer-to-peer primitives for social networks built on the lattice. Users own cryptographically signed feeds rooted in their own keys; nodes selectively replicate content based on follow relationships and local policy. There is no central server, no platform account, and no single party that can suspend or shadow-ban.\n\nThe design handles identity, posting, following, threading, and reactions, with lattice-merge semantics that make concurrent activity from disconnected peers converge cleanly when they sync.',
         repo: 'https://github.com/Convex-Dev/convex',
         tags: ['social', 'p2p', 'identity'],
+        status: 'experimental',
+        licensing: 'open-source',
+        license: 'Apache-2.0',
       },
       {
         name: 'KV Database',
         description:
           'Named KV database on the lattice with per-owner signed replicas. Rich data types — counters, lists, sets, sorted sets, hashes — Redis-style, globally mergeable.',
+        longDescription:
+          'The KV Database is a named, multi-owner key-value store on the Convex lattice with signed replicas. Values are not just strings — it supports rich data types modelled on Redis (counters, lists, sets, sorted sets, hashes), all with lattice merge semantics so concurrent edits from different replicas converge.\n\nEach owner\'s namespace is cryptographically signed, so replicas can be distributed widely without trusting intermediaries. Ideal for user profiles, session state, caches, and application data that benefits from disconnected operation.',
         repo: 'https://github.com/Convex-Dev/convex',
         tags: ['kv', 'database', 'signed'],
+        status: 'active',
+        licensing: 'open-source',
+        license: 'Apache-2.0',
       },
       {
         name: 'LatticeMQ',
         description:
           'Kafka-style distributed message queue on the lattice. Two-level hierarchy of topics and partitions, each an append-only log with lattice merge semantics.',
+        longDescription:
+          'LatticeMQ is a distributed message queue modelled after Kafka, built on the Convex lattice. It offers a two-level hierarchy of topics and partitions, where each partition is an append-only log. Producers write concurrently; consumers read by offset; all of it merges lattice-deterministically across replicas.\n\nLatticeMQ is useful when you need durable, ordered streams but want the replication, integrity, and decentralisation properties of lattice storage rather than a coordinator-based broker.',
         repo: 'https://github.com/Convex-Dev/convex',
         tags: ['queue', 'pubsub', 'messaging'],
+        status: 'active',
+        licensing: 'open-source',
+        license: 'Apache-2.0',
       },
       {
         name: 'Embedded Peer',

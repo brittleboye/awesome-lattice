@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { categories, projectSlug, type Category, type Project } from '../../../data/projects';
+
+export function getStaticPaths() {
+  const paths: Array<{ params: { category: string; slug: string }; props: { category: Category; project: Project } }> = [];
+  const seen = new Set<string>();
+  for (const category of categories) {
+    for (const project of category.projects) {
+      const slug = projectSlug(project);
+      const key = `${category.id}/${slug}`;
+      if (seen.has(key)) {
+        throw new Error(`Duplicate project slug in category ${category.id}: ${slug}`);
+      }
+      seen.add(key);
+      paths.push({
+        params: { category: category.id, slug },
+        props: { category, project },
+      });
+    }
+  }
+  return paths;
+}
+
+const { category, project } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const normBase = base.endsWith('/') ? base.slice(0, -1) : base;
+const isFirst = category.id === categories[0].id;
+const categoryHref = isFirst ? `${normBase}/` : `${normBase}/${category.id}/`;
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const links: Array<{ label: string; url: string }> = [];
+if (project.homepage) links.push({ label: 'Homepage', url: project.homepage });
+if (project.repo) links.push({ label: 'Source', url: project.repo });
+if (project.docs) links.push({ label: 'Documentation', url: project.docs });
+if (project.links) links.push(...project.links);
+
+const longParagraphs = (project.longDescription ?? '').split(/\n\n+/).filter(Boolean);
+
+const licensingLabel: Record<string, string> = {
+  'open-source': 'Open source',
+  'commercial': 'Commercial',
+  'mixed': 'Open source + commercial',
+  'public': 'Public / non-profit',
+};
+
+const statusLabel: Record<string, string> = {
+  active: 'Active',
+  beta: 'Beta',
+  experimental: 'Experimental',
+  archived: 'Archived',
+  planned: 'Planned',
+};
+
+const typeByCategory: Record<string, string> = {
+  companies: 'Organization',
+  web: 'WebSite',
+  community: 'WebSite',
+};
+const schemaType = typeByCategory[category.id] ?? 'SoftwareApplication';
+
+const projectJsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': schemaType,
+  name: project.name,
+  description: project.description,
+  url: pageUrl,
+};
+if (project.longDescription) projectJsonLd.abstract = project.longDescription;
+if (project.homepage) projectJsonLd.sameAs = [project.homepage].concat(
+  project.links?.map((l) => l.url) ?? [],
+);
+if (project.repo && schemaType === 'SoftwareApplication') {
+  projectJsonLd.codeRepository = project.repo;
+  projectJsonLd.applicationCategory = 'DeveloperApplication';
+}
+if (project.license) projectJsonLd.license = `https://spdx.org/licenses/${project.license}.html`;
+if (project.tags?.length) projectJsonLd.keywords = project.tags.join(', ');
+---
+
+<BaseLayout
+  title={`${project.name} — Awesome Lattice`}
+  description={project.description}
+  structuredData={projectJsonLd}
+  hideIntro
+>
+  <article class="project-detail">
+    <nav class="detail-crumbs">
+      <a href={categoryHref}>← {category.title}</a>
+    </nav>
+    <header class="detail-head">
+      <div class="detail-title-row">
+        <h1>{project.name}</h1>
+        {project.badge && <span class="badge detail-badge">{project.badge}</span>}
+      </div>
+      <p class="lede">{project.description}</p>
+      {(project.status || project.licensing || project.license) && (
+        <div class="pill-row">
+          {project.status && (
+            <span class={`pill pill-status pill-status-${project.status}`}>{statusLabel[project.status]}</span>
+          )}
+          {project.licensing && (
+            <span class={`pill pill-licensing pill-licensing-${project.licensing}`}>{licensingLabel[project.licensing]}</span>
+          )}
+          {project.license && (
+            <span class="pill pill-license">{project.license}</span>
+          )}
+        </div>
+      )}
+      {project.tags && project.tags.length > 0 && (
+        <div class="tag-row detail-tags">
+          {project.tags.map((t) => <span class="tag">{t}</span>)}
+        </div>
+      )}
+    </header>
+
+    {longParagraphs.length > 0 && (
+      <section class="detail-body">
+        {longParagraphs.map((p) => <p>{p}</p>)}
+      </section>
+    )}
+
+    {links.length > 0 && (
+      <section class="detail-links">
+        <h2>Links</h2>
+        <ul>
+          {links.map((l) => (
+            <li>
+              <span class="link-label">{l.label}</span>
+              <a href={l.url} rel="noopener">{l.url}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <nav class="detail-foot">
+      <a href={categoryHref}>← Back to {category.title}</a>
+    </nav>
+  </article>
+</BaseLayout>

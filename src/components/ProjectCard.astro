@@ -1,12 +1,16 @@
 ---
-import type { Project } from '../data/projects';
+import { projectSlug, type Project } from '../data/projects';
 
 interface Props {
   project: Project;
+  categoryId: string;
 }
 
-const { project } = Astro.props;
+const { project, categoryId } = Astro.props;
 const primary = project.homepage ?? project.repo ?? project.docs;
+const base = import.meta.env.BASE_URL;
+const normBase = base.endsWith('/') ? base.slice(0, -1) : base;
+const detailHref = `${normBase}/projects/${categoryId}/${projectSlug(project)}/`;
 ---
 
 <article class="card">
@@ -28,5 +32,6 @@ const primary = project.homepage ?? project.repo ?? project.docs;
     {project.homepage && project.homepage !== project.repo && (
       <a href={project.homepage} rel="noopener">Site</a>
     )}
+    <a href={detailHref} class="card-more">More →</a>
   </div>
 </article>

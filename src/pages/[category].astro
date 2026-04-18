@@ -31,7 +31,7 @@ const itemList = categoryItemList(category, pageUrl);
         <p>{category.description}</p>
       </header>
       <div class="card-grid">
-        {category.projects.map((project) => <ProjectCard project={project} />)}
+        {category.projects.map((project) => <ProjectCard project={project} categoryId={category.id} />)}
       </div>
     </div>
   </div>

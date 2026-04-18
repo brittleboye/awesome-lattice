@@ -23,7 +23,7 @@ const itemList = categoryItemList(active, pageUrl);
         <p>{active.description}</p>
       </header>
       <div class="card-grid">
-        {active.projects.map((project) => <ProjectCard project={project} />)}
+        {active.projects.map((project) => <ProjectCard project={project} categoryId={active.id} />)}
       </div>
     </div>
   </div>

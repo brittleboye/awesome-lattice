@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { categories } from '../data/projects';
+import { categories, projectSlug } from '../data/projects';
 
 export const GET: APIRoute = ({ site }) => {
   const base = import.meta.env.BASE_URL;
@@ -19,15 +19,25 @@ export const GET: APIRoute = ({ site }) => {
         title: category.title,
         description: category.description,
         url: `${root}${path}`,
-        projects: category.projects.map((project) => ({
-          name: project.name,
-          description: project.description,
-          homepage: project.homepage ?? null,
-          repo: project.repo ?? null,
-          docs: project.docs ?? null,
-          tags: project.tags ?? [],
-          badge: project.badge ?? null,
-        })),
+        projects: category.projects.map((project) => {
+          const slug = projectSlug(project);
+          return {
+            slug,
+            name: project.name,
+            description: project.description,
+            longDescription: project.longDescription ?? null,
+            homepage: project.homepage ?? null,
+            repo: project.repo ?? null,
+            docs: project.docs ?? null,
+            links: project.links ?? [],
+            tags: project.tags ?? [],
+            badge: project.badge ?? null,
+            status: project.status ?? null,
+            licensing: project.licensing ?? null,
+            license: project.license ?? null,
+            url: `${root}projects/${category.id}/${slug}/`,
+          };
+        }),
       };
     }),
   };
