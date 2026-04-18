@@ -504,6 +504,22 @@ export const categories: Category[] = [
         },
       },
       {
+        name: 'MCP 1st Birthday Hackathon — Agentic Economics',
+        slug: 'mcp-1st-birthday-hackathon-agentic-economics',
+        description:
+          'Covia team demo from the MCP 1st Birthday Hackathon: an MCP server that lets AI agents negotiate and transact economic contracts with each other, powered by Convex and the Covia Grid.',
+        longDescription:
+          'The Covia team\'s entry for the MCP 1st Birthday Hackathon (celebrating one year of the Model Context Protocol). They built an MCP server that exposes a full agentic-economics toolkit — agents discover each other, negotiate terms, and transact economic contracts via MCP tool calls.\n\nThe stack: Convex (convex.world) for decentralised lattice state and settlement, and the Covia Grid (covia.ai) for federated agent orchestration and MCP-native execution. A concrete demonstration of how MCP, lattice consensus, and agent frameworks compose into an economic protocol layer.',
+        homepage: 'https://www.youtube.com/watch?v=7KkT8efTv1s',
+        tags: ['hackathon', 'mcp', 'agents', 'covia', 'demo'],
+        badge: 'Demo',
+        video: {
+          url: 'https://www.youtube.com/watch?v=7KkT8efTv1s',
+          uploadDate: '2025-11-25',
+          event: 'MCP 1st Birthday Hackathon',
+        },
+      },
+      {
         name: 'Convex — Data Lattice and Convergent Storage',
         slug: 'convex-data-lattice-and-convergent-storage',
         description:
