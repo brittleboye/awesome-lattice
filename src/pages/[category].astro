@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Sidebar from '../components/Sidebar.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { categories } from '../data/projects';
+import { categoryItemList } from '../lib/structured-data';
 
 export function getStaticPaths() {
   // Skip the first category — it's served at the site root.
@@ -13,11 +14,14 @@ export function getStaticPaths() {
 }
 
 const { category } = Astro.props;
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const itemList = categoryItemList(category, pageUrl);
 ---
 
 <BaseLayout
   title={`${category.title} — Awesome Lattice`}
   description={category.description}
+  structuredData={itemList}
 >
   <div class="layout">
     <Sidebar activeId={category.id} />
