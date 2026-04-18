@@ -1173,6 +1173,483 @@ export const categories: Category[] = [
     ],
   },
   {
+    id: 'cads',
+    title: 'Convex Architecture Documents',
+    description: 'Formal specifications for the Convex lattice platform — the RFCs that define how every layer fits together, from encoding up to AI agent protocols.',
+    projects: [
+      {
+        name: 'CAD000: Design Principles',
+        slug: 'cad000-design-principles',
+        description:
+          'Codifies the non-negotiable axioms every other CAD inherits from — immutable values, bounded resources, CRDT-safe idempotence, security-first cryptography. This is the constitution: why Convex refuses the shortcuts (mutable state, unbounded ops, bespoke crypto) that trap other decentralised platforms.',
+        homepage: 'https://docs.convex.world/docs/cad/000_principles',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/000_principles',
+        tags: ['spec', 'principles', 'crdt', 'security', 'governance'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD001: Convex Architecture',
+        slug: 'cad001-convex-architecture',
+        description:
+          'Draws the line between the on-chain CVM (global consensus, root of trust) and the off-chain Lattice (unbounded CRDT data) while forcing them to share one encoding, one hash function, and one cryptographic identity. That shared substrate is what lets value and data flow between layers without the bridges, wrapping, and trust assumptions that fragment other stacks.',
+        homepage: 'https://docs.convex.world/docs/cad/001_arch',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/001_arch',
+        tags: ['spec', 'architecture', 'cvm', 'lattice', 'consensus'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD002: CVM Values',
+        slug: 'cad002-cvm-values',
+        description:
+          'Mandates that every value on the network is a pure immutable cell in a Merkle DAG — so hashes are stable identities, snapshots are O(1), and untrusted smart contracts can be handed references without defensive copying. This is the data-model prerequisite for everything the lattice does that a mutable-heap blockchain like Ethereum cannot.',
+        homepage: 'https://docs.convex.world/docs/cad/002_values',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/002_values',
+        tags: ['spec', 'cvm', 'crdt', 'encoding', 'storage'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD003: Encoding Format',
+        slug: 'cad003-encoding-format',
+        description:
+          'Defines the one canonical byte encoding every cell collapses to, so any value hashes to exactly one global ID and peers can deduplicate, stream and merge state without coordination. This is the physics of the lattice — JSON has no canonical form, Protobuf needs schemas, ASN.1 can\'t bound buffer size; CAD3 solves all three at once.',
+        homepage: 'https://docs.convex.world/docs/cad/003_encoding',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/003_encoding',
+        tags: ['spec', 'encoding', 'storage', 'crdt', 'merkle-dag'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD004: Accounts',
+        slug: 'cad004-accounts',
+        description:
+          'Unifies user wallets and smart contracts into a single account primitive — each one a tiny sovereign Lisp machine with its own environment and Ed25519 key. Key rotation without changing address (something Ethereum externally-owned accounts cannot do) falls straight out of this model.',
+        homepage: 'https://docs.convex.world/docs/cad/004_accounts',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/004_accounts',
+        tags: ['spec', 'accounts', 'actors', 'identity', 'smart-contracts'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD005: CVM Execution',
+        slug: 'cad005-cvm-execution',
+        description:
+          'Specifies the deterministic state-transition function State\' = f(State, Block) over a Merkle-tree global state, so any peer can re-derive consensus from a single 32-byte root hash. This is what allows fast peer sync and cheap state proofs instead of replaying every block from genesis.',
+        homepage: 'https://docs.convex.world/docs/cad/005_cvmex',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/005_cvmex',
+        tags: ['spec', 'cvm', 'consensus', 'state', 'execution'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD006: Memory Accounting',
+        slug: 'cad006-memory-accounting',
+        description:
+          'Makes on-chain storage an accounted, tradeable resource — users get a memory allowance, pay into a common pool for more, and are refunded for deletions. Directly attacks the state-bloat trap that makes running an Ethereum archive node increasingly impractical.',
+        homepage: 'https://docs.convex.world/docs/cad/006_memory',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/006_memory',
+        tags: ['spec', 'memory', 'storage', 'tokenomics', 'juice'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD007: Juice Accounting',
+        slug: 'cad007-juice-accounting',
+        description:
+          'Meters CPU and bandwidth per CVM op with hard upper bounds so an O(n) attacker cannot force O(n^2) work — DoS protection baked into the execution semantics rather than retrofitted. It plays the role Ethereum gas plays but is priced on actual worst-case resource use, and is called juice deliberately because it is a Convex concept, not a blockchain one.',
+        homepage: 'https://docs.convex.world/docs/cad/007_juice',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/007_juice',
+        tags: ['spec', 'juice', 'security', 'cvm', 'tokenomics'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD008: Compiler',
+        slug: 'cad008-compiler',
+        description:
+          'Puts a full expander + compiler on-chain, so smart contracts can legitimately write and deploy smart contracts using CVM ops as the target IR. Any language that lowers to Convex Lisp or CVM ops becomes a first-class on-chain language — Solidity-style single-language lock-in is structurally avoided.',
+        homepage: 'https://docs.convex.world/docs/cad/008_compiler',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/008_compiler',
+        tags: ['spec', 'compiler', 'cvm', 'lisp', 'reader'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD009: Expanders and Macros',
+        slug: 'cad009-expanders-macros',
+        description:
+          'Brings Dybvig-Friedman-Haynes expansion-passing-style macros on-chain — more general than traditional macro systems and strong enough to host entirely new languages or DSLs inside a single eval. Contract authors can extend the language itself rather than routing around its limits.',
+        homepage: 'https://docs.convex.world/docs/cad/009_expanders',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/009_expanders',
+        tags: ['spec', 'lisp', 'compiler', 'cvm', 'dsl'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD010: Transactions',
+        slug: 'cad010-transactions',
+        description:
+          'Pins down the signed transaction envelope — Ed25519 signature, origin address, strict incrementing sequence number — so replay attacks are structurally impossible and every state change has a cryptographically attributable author. The narrow interface is what lets clients from any language submit work into consensus.',
+        homepage: 'https://docs.convex.world/docs/cad/010_transactions',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/010_transactions',
+        tags: ['spec', 'transactions', 'signatures', 'security', 'cvm'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD011: Error Handling',
+        slug: 'cad011-errors',
+        description:
+          'Gives every CVM expression exactly three outcomes (success, error, exceptional exit) with try granting atomic rollback on catch — errors become data, not undefined behaviour. Fixes the Solidity-era mistake where a revert in a dependency silently poisoned whole contract flows.',
+        homepage: 'https://docs.convex.world/docs/cad/011_errors',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/011_errors',
+        tags: ['spec', 'cvm', 'errors', 'smart-contracts'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD012: Numerics',
+        slug: 'cad012-numerics',
+        description:
+          'Provides a full numeric tower — arbitrary-precision integers up to 32 Kbits plus IEEE754 doubles — so prediction markets, AMM maths and share-pool division work natively on-chain without fixed-point hacks. Ethereum\'s integer-only VM forces all of this into library gymnastics.',
+        homepage: 'https://docs.convex.world/docs/cad/012_numerics',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/012_numerics',
+        tags: ['spec', 'numerics', 'cvm', 'smart-contracts'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD013: Metadata',
+        slug: 'cad013-metadata',
+        description:
+          'Attaches a structured map to every defined symbol — docstrings, type hints, access flags — readable by tools, IDEs and explorers without a separate registry. Makes on-chain code genuinely self-describing so that wallets and agents can introspect contracts they have never seen before.',
+        homepage: 'https://docs.convex.world/docs/cad/013_metadata',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/013_metadata',
+        tags: ['spec', 'metadata', 'cvm', 'lisp', 'observability'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD014: Convex Name System',
+        slug: 'cad014-convex-name-system',
+        description:
+          'Provides trusted mutable human-readable references (@convex.trust → the current authoritative actor) so ecosystem-wide upgrades happen without touching caller source. DNS-for-smart-contracts: contract addresses stop being the API surface, names do.',
+        homepage: 'https://docs.convex.world/docs/cad/014_cns',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/014_cns',
+        tags: ['spec', 'cns', 'identity', 'governance', 'smart-contracts'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD015: Peer Communications',
+        slug: 'cad015-peer-communications',
+        description:
+          'Defines an asynchronous, transport-agnostic message format where every payload is a CAD3 cell and branches can be omitted for deltas — so a huge state can be transmitted as a tiny diff when the receiver already holds the rest. Gossip and lattice sync ride the same efficient wire.',
+        homepage: 'https://docs.convex.world/docs/cad/015_peercomms',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/015_peercomms',
+        tags: ['spec', 'networking', 'peer', 'encoding', 'crdt'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD016: Peer Staking',
+        slug: 'cad016-peer-staking',
+        description:
+          'Separates operational peer stake (slashed if the hot key leaks) from delegated stake (slashed only if the controller account is compromised), so coin holders can back good operators without running infrastructure themselves. Cleaner fault model than Ethereum validator staking, where one key loss loses everything.',
+        homepage: 'https://docs.convex.world/docs/cad/016_peerstake',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/016_peerstake',
+        tags: ['spec', 'consensus', 'staking', 'security', 'tokenomics'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD017: Peer Operations',
+        slug: 'cad017-peer-operations',
+        description:
+          'Sets the concrete hardware, network, and key-management bar for running a peer — 1000 CVM minimum stake, offline controller keys, commodity 8-core box. Deliberately keeps peer operation achievable by individuals, not just data centres.',
+        homepage: 'https://docs.convex.world/docs/cad/017_peerops',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/017_peerops',
+        tags: ['spec', 'peer', 'operations', 'security', 'governance'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD018: Scheduler',
+        slug: 'cad018-scheduler',
+        description:
+          'Lets actors schedule CVM code to execute at a future timestamp with guaranteed execution and pre-paid juice, with hard O(log N) overhead to block DoS. Unlocks autopay, auctions, vesting and deadlines natively instead of relying on off-chain keeper bots like most EVM chains require.',
+        homepage: 'https://docs.convex.world/docs/cad/018_scheduler',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/018_scheduler',
+        tags: ['spec', 'scheduler', 'cvm', 'smart-contracts', 'actors'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD019: Asset Model',
+        slug: 'cad019-asset-model',
+        description:
+          'One polymorphic asset/transfer that accepts fungible tokens, NFT sets, derivative contracts and asset types not yet invented — generic contracts can handle anything ownable. Replaces the ERC-20/721/1155/4626 zoo with a single universal SPI.',
+        homepage: 'https://docs.convex.world/docs/cad/019_assets',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/019_assets',
+        tags: ['spec', 'assets', 'smart-contracts', 'tokens', 'cvm'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD020: Tokenomics',
+        slug: 'cad020-tokenomics',
+        description:
+          'Issues Convex Coins via a market-driven release curve rather than pre-mine, ICO, or airdrop — new supply prints only when economic demand pushes price above the curve, protecting earlier holders from dilution. Deliberately neutralises the pump-and-dump dynamics of Ethereum pre-mines and ICO-era launches.',
+        homepage: 'https://docs.convex.world/docs/cad/020_tokenomics',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/020_tokenomics',
+        tags: ['tokenomics', 'governance', 'consensus'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD021: Observability',
+        slug: 'cad021-observability',
+        description:
+          'Pluggable opt-in observability hooks on every peer (client transactions, ordering events, state changes) so operators can pipe metrics to Kafka, Prometheus or custom pipelines without patching the peer. Monitoring stops being a fork-and-instrument exercise.',
+        homepage: 'https://docs.convex.world/docs/cad/021_observability',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/021_observability',
+        tags: ['spec', 'observability', 'peer', 'operations'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD022: Trust Monitors',
+        slug: 'cad022-trust-monitors',
+        description:
+          'Composable on-chain subject-action-object authorisation modules based on the TCSEC B3 reference-monitor model — sandboxed, callable in query mode, reusable across contracts. Access control becomes a first-class shareable component instead of ad-hoc modifiers copied into every contract.',
+        homepage: 'https://docs.convex.world/docs/cad/022_trustmon',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/022_trustmon',
+        tags: ['spec', 'security', 'smart-contracts', 'governance', 'trust'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD023: Keystore',
+        slug: 'cad023-keystore',
+        description:
+          'Standardises how peers, CLIs and wallets store Ed25519 keys — encrypted at rest, password not cached, in-memory only when needed, reusing proven formats rather than reinventing. Prevents the class of keystore bugs that have drained other ecosystems.',
+        homepage: 'https://docs.convex.world/docs/cad/023_keystore',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/023_keystore',
+        tags: ['spec', 'keystore', 'security', 'wallet', 'identity'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD024: Data Lattice',
+        slug: 'cad024-data-lattice',
+        description:
+          'Specifies the off-chain CRDT substrate — content-addressed, lazily loaded, self-healing, garbage-collectable, structurally shared and JSON-superset typed. This is where Convex solves what IPFS handles clumsily: rich types, efficient deltas, and merges that just work instead of manual pinning and reconciliation.',
+        homepage: 'https://docs.convex.world/docs/cad/024_data_lattice',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/024_data_lattice',
+        tags: ['spec', 'lattice', 'crdt', 'storage', 'merkle-dag'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD025: Convex HD Wallets',
+        slug: 'cad025-convex-hd-wallets',
+        description:
+          'BIP39/BIP44/SLIP-10 compatibility with SLIP-0044 coin type 864 for Convex — users get hardware-wallet and multi-chain-wallet support on day one without bespoke seed formats. Key recovery is a solved problem reused, not reinvented.',
+        homepage: 'https://docs.convex.world/docs/cad/025_wallet',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/025_wallet',
+        tags: ['spec', 'wallet', 'identity', 'keystore', 'signatures'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD026: Convex Lisp',
+        slug: 'cad026-convex-lisp',
+        description:
+          'A Clojure-inspired homoiconic Lisp tuned to the CVM\'s immutable persistent data structures, compiling on-chain and supporting REPL-driven development against a live network. General-purpose languages aren\'t deterministic enough and Solidity can\'t express the CVM\'s richer account model — Lisp is the pragmatic fit.',
+        homepage: 'https://docs.convex.world/docs/cad/026_lisp',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/026_lisp',
+        tags: ['spec', 'lisp', 'cvm', 'compiler', 'smart-contracts'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD027: Event Logging',
+        slug: 'cad027-event-logging',
+        description:
+          'A built-in log function emits verifiable events without requiring peer instrumentation or re-running historical state — auditors, wallets and indexers can subscribe to exactly what contract authors declare is meaningful. Cleaner than screen-scraping EVM logs with ABI guessing.',
+        homepage: 'https://docs.convex.world/docs/cad/027_log',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/027_log',
+        tags: ['spec', 'observability', 'cvm', 'smart-contracts'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD028: Data Lattice File System',
+        slug: 'cad028-dlfs',
+        description:
+          'A POSIX-compatible self-sovereign file system on the lattice — CRDT merge means editing the same file on two offline devices reconciles automatically, with Merkle verification and peer-to-peer sync. Dropbox/iCloud with the provider removed and the data still yours.',
+        homepage: 'https://docs.convex.world/docs/cad/028_dlfs',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/028_dlfs',
+        tags: ['spec', 'filesystem', 'lattice', 'crdt', 'storage'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD029: Fungible Token Standard',
+        slug: 'cad029-fungible-token-standard',
+        description:
+          'The CAD19-conformant replacement for ERC-20/ERC-777 — integer balances, decimals, mint/burn, all accessible through the universal asset API rather than duplicated interface boilerplate. Writing a new token is defining the rules, not re-implementing transfer.',
+        homepage: 'https://docs.convex.world/docs/cad/029_fungible',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/029_fungible',
+        tags: ['spec', 'assets', 'tokens', 'smart-contracts', 'cvm'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD030: Torus DEX',
+        slug: 'cad030-torus-dex',
+        description:
+          'An on-chain AMM where any CAD29 token gets a market on first request, routing through a canonical actor rather than deployed-per-pool factory contracts. Shows the universal asset model paying off — one DEX speaks every token, invented or not.',
+        homepage: 'https://docs.convex.world/docs/cad/030_torus',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/030_torus',
+        tags: ['smart-contracts', 'assets', 'tokens', 'cvm'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD031: NFT Metadata',
+        slug: 'cad031-nft-metadata',
+        description:
+          'Puts NFT metadata on-chain as native CVM maps (JSON-compatible, per-NFT, optionally generated dynamically) instead of relying on off-chain IPFS URLs that rot. Fixes the chronic ERC-721 problem where NFT art disappears because someone stopped pinning.',
+        homepage: 'https://docs.convex.world/docs/cad/031_nft_metadata',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/031_nft_metadata',
+        tags: ['spec', 'assets', 'tokens', 'nft', 'metadata'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD032: CVX Reader',
+        slug: 'cad032-cvx-reader',
+        description:
+          'Defines the textual .cvx syntax via an ANTLR grammar covering CVM literals, data structures, addresses and doubles — an unambiguous print/parse round-trip shared by REPLs, tooling, and file storage. The Lisp equivalent of having a real spec instead of vendor-specific dialects.',
+        homepage: 'https://docs.convex.world/docs/cad/032_reader',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/032_reader',
+        tags: ['spec', 'reader', 'lisp', 'cvm'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD033: Convex CVM Types',
+        slug: 'cad033-convex-cvm-types',
+        description:
+          'The registry of CAD3 extension tags for CVM-specific values (booleans, addresses, syntax objects, etc.) — nails down exactly which byte means which type so every implementation agrees. Without this the wire-format promises of CAD003 would drift across peer versions.',
+        homepage: 'https://docs.convex.world/docs/cad/033_cvmtypes',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/033_cvmtypes',
+        tags: ['spec', 'encoding', 'cvm', 'types'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD034: Curated Registry',
+        slug: 'cad034-curated-registry',
+        description:
+          'A generic on-chain registry pattern with CAD22 trust-monitor gating — one actor can host many registries for DAO memberships, verified token lists, accredited organisations. Lets ecosystems publish lists with controlled curation instead of every dApp shipping its own allow-list contract.',
+        homepage: 'https://docs.convex.world/docs/cad/034_curated_registry',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/034_curated_registry',
+        tags: ['spec', 'registry', 'trust', 'governance', 'smart-contracts'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD035: Lattice Cursors',
+        slug: 'cad035-lattice-cursors',
+        description:
+          'A thin mutable pointer layer over immutable lattice values — applications get atomic compareAndSet, updateAndGet, nested navigation, and sync/fork, while the underlying Merkle DAG stays pure. This is how applications use CRDT data without thinking about CRDT merges.',
+        homepage: 'https://docs.convex.world/docs/cad/035_cursors',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/035_cursors',
+        tags: ['spec', 'cursors', 'lattice', 'crdt', 'api'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD036: Lattice Node',
+        slug: 'cad036-lattice-node',
+        description:
+          'A lightweight non-consensus server that just replicates CRDT lattice data over the network — no CPoS, no staking, minimal resources. The right tier for CDNs, collaborative apps and hybrid dApps that need lattice sync without the cost of running a full Convex peer.',
+        homepage: 'https://docs.convex.world/docs/cad/036_lattice_node',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/036_lattice_node',
+        tags: ['spec', 'lattice', 'networking', 'storage', 'crdt'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD037: KV Database',
+        slug: 'cad037-kv-database',
+        description:
+          'A Redis-style per-owner signed KV store on the lattice — multi-writer, offline-first, convergent without leader election because merge is mathematical, not negotiated. Gives hybrid dApps the shared mutable state that a global blockchain cannot afford to host.',
+        homepage: 'https://docs.convex.world/docs/cad/037_kv_database',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/037_kv_database',
+        tags: ['spec', 'database', 'lattice', 'crdt', 'storage'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD038: Lattice Authentication',
+        slug: 'cad038-lattice-authentication',
+        description:
+          'Makes the merge step itself the security boundary — every incoming signed value is verified against its owner key (public key, Convex address, or DID) at O(delta) cost. You cannot inject data into a namespace you don\'t own, no matter what transport delivered it.',
+        homepage: 'https://docs.convex.world/docs/cad/038_lattice_auth',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/038_lattice_auth',
+        tags: ['spec', 'lattice-auth', 'signatures', 'security', 'did', 'identity'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD039: Convex SQL',
+        slug: 'cad039-convex-sql',
+        description:
+          'Typed SQL tables on the lattice with Apache Calcite as the query planner — full SELECT/JOIN/aggregate over decentralised, CRDT-replicated rows. Bridges relational thinking to CRDT storage, so existing SQL tooling plugs into a decentralised backend.',
+        homepage: 'https://docs.convex.world/docs/cad/039_convex_sql',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/039_convex_sql',
+        tags: ['spec', 'sql', 'database', 'lattice', 'crdt'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD040: Lattice Queue',
+        slug: 'cad040-lattice-queue',
+        description:
+          'A Kafka-style append-only log on the lattice — stable offsets, independent consumer positions, CRDT-convergent replication, and truncation that preserves offset identity. Event streaming without a central broker, paired with CAD037\'s state to cover both halves of distributed-system data.',
+        homepage: 'https://docs.convex.world/docs/cad/040_lattice_queue',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/040_lattice_queue',
+        tags: ['spec', 'queue', 'lattice', 'crdt', 'streaming'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD041: Model Context Protocol',
+        slug: 'cad041-mcp',
+        description:
+          'Exposes peer capabilities (queries, transactions, watches, signing) as Model Context Protocol tools at /mcp with SSE streaming — so any MCP-aware LLM can transact, read state and subscribe to changes with no bespoke adapter. Convex becomes an economic substrate AI agents speak natively.',
+        homepage: 'https://docs.convex.world/docs/cad/041_mcp',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/041_mcp',
+        tags: ['spec', 'mcp', 'ai', 'agents', 'api'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD042: x402 Protocol',
+        slug: 'cad042-x402-protocol',
+        description:
+          'Implements the HTTP 402 payment protocol over CVM and CAD29 tokens — APIs can gate access per request with a header-level payment, no OAuth, accounts or invoicing. Micropayments for agents and APIs without the Stripe detour.',
+        homepage: 'https://docs.convex.world/docs/cad/042_x402',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/042_x402',
+        tags: ['spec', 'payments', 'x402', 'api', 'tokens'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD043: Decentralised Identity',
+        slug: 'cad043-decentralised-identity',
+        description:
+          'Maps did:convex, did:key and did:web to Convex accounts via the shared Ed25519 key, so an identity issued off-chain can become an on-chain account without migration. Convex identities plug straight into the broader W3C DID world.',
+        homepage: 'https://docs.convex.world/docs/cad/043_did',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/043_did',
+        tags: ['spec', 'did', 'identity', 'signatures', 'cns'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD044: JSON on the Lattice',
+        slug: 'cad044-json-on-the-lattice',
+        description:
+          'JSON is a strict subset of CVM types, so any JSON payload rides through the CVM and the lattice with zero adaptation — keywords map to strings, maps to objects, vectors to arrays. Web APIs and existing JSON tooling work unchanged, removing the usual serialisation wall between web and chain.',
+        homepage: 'https://docs.convex.world/docs/cad/044_json',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/044_json',
+        tags: ['spec', 'json', 'encoding', 'api', 'interop'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD045: Lattice Applications',
+        slug: 'cad045-lattice-applications',
+        description:
+          'A four-layer pattern (API / cursors / lattice types / node infrastructure) for decentralised apps that compose LWW, Index, Map and Set lattices into correct, signed, mergeable domain models. Turns raw CRDT primitives into a repeatable recipe, so self-sovereign apps don\'t each reinvent merge semantics and silently lose data.',
+        homepage: 'https://docs.convex.world/docs/cad/045_lattice_apps',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/045_lattice_apps',
+        tags: ['spec', 'lattice', 'crdt', 'cursors', 'applications'],
+        badge: 'CAD',
+      },
+      {
+        name: 'CAD046: CellExplorer',
+        slug: 'cad046-cellexplorer',
+        description:
+          'Budget-bounded JSON5 rendering of arbitrarily large CVM cells with truncation annotated in comments, using CAD3 storage bytes as the cost proxy. Exactly what LLM context windows, debuggers and API previews need — explore a gigabyte lattice in a few KB of output.',
+        homepage: 'https://docs.convex.world/docs/cad/046_cell_explorer',
+        repo: 'https://github.com/Convex-Dev/design/tree/main/docs/cad/046_cell_explorer',
+        tags: ['spec', 'observability', 'cursors', 'ai', 'cell-explorer'],
+        badge: 'CAD',
+      },
+    ],
+  },
+  {
     id: 'community',
     title: 'Community',
     description: 'Where the ecosystem hangs out — chat, code, and social.',
