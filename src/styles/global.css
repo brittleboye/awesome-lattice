@@ -44,7 +44,17 @@ body {
   background-position: 0 0, 0 0, -1px -1px, -1px -1px;
   line-height: 1.55;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   -webkit-font-smoothing: antialiased;
+}
+
+main.container {
+  flex: 1 0 auto;
+}
+
+.site-footer {
+  flex-shrink: 0;
 }
 
 a {
