@@ -74,6 +74,7 @@ export const categories: Category[] = [
         links: [
           { label: 'Whitepaper', url: 'https://docs.convex.world/cvm-whitepaper.pdf' },
           { label: 'Blog', url: 'https://docs.convex.world/blog' },
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-core' },
           { label: 'Discord', url: 'https://discord.com/invite/xfYGq4CT7v' },
           { label: 'GitHub Org', url: 'https://github.com/Convex-Dev' },
         ],
@@ -94,6 +95,7 @@ export const categories: Category[] = [
         license: 'Apache-2.0',
         links: [
           { label: 'Hosted grid', url: 'https://app.covia.ai' },
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/ai.covia/covia-core' },
           { label: 'Discord', url: 'https://discord.gg/fywdrKd8QT' },
           { label: 'GitHub Org', url: 'https://github.com/covia-ai' },
         ],
@@ -113,6 +115,9 @@ export const categories: Category[] = [
           'Convex DB is a relational database built on the Convex lattice. It speaks SQL via JDBC and the PostgreSQL wire protocol, so existing tooling — drivers, ORMs, query builders, BI tools — works out of the box. Under the hood, rows and indexes are stored as lattice-structured data that merges convergently, giving you standard relational semantics on top of a decentralised, replicated state layer.\n\nIntended for applications that need both the ergonomics of SQL and the properties of lattice storage: multi-peer replication, content-addressed history, and deterministic merges.',
         repo: 'https://github.com/Convex-Dev/convex',
         docs: 'https://docs.convex.world',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-db' },
+        ],
         tags: ['sql', 'jdbc', 'database'],
         status: 'beta',
         licensing: 'open-source',
@@ -126,6 +131,9 @@ export const categories: Category[] = [
           'DLFS — the Decentralised Lattice File System — is a content-addressed, CRDT-mergeable filesystem that runs on the Convex lattice. It exposes a familiar hierarchical namespace with WebDAV and Java NIO compatibility, so you can mount it as a drive or access it through standard file APIs.\n\nEvery directory and file is a lattice value. Concurrent writes from independent peers merge deterministically, without a central coordinator. DLFS is designed to store both user-facing documents and machine-generated assets — datasets, model weights, blobs — with strong integrity guarantees and efficient sync.',
         homepage: 'https://convex.world/dlfs',
         repo: 'https://github.com/Convex-Dev/convex',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-dlfs' },
+        ],
         tags: ['filesystem', 'crdt', 'webdav'],
         status: 'active',
         licensing: 'open-source',
@@ -138,6 +146,9 @@ export const categories: Category[] = [
         longDescription:
           'Convex Social provides peer-to-peer primitives for social networks built on the lattice. Users own cryptographically signed feeds rooted in their own keys; nodes selectively replicate content based on follow relationships and local policy. There is no central server, no platform account, and no single party that can suspend or shadow-ban.\n\nThe design handles identity, posting, following, threading, and reactions, with lattice-merge semantics that make concurrent activity from disconnected peers converge cleanly when they sync.',
         repo: 'https://github.com/Convex-Dev/convex',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-social' },
+        ],
         tags: ['social', 'p2p', 'identity'],
         status: 'experimental',
         licensing: 'open-source',
@@ -150,6 +161,9 @@ export const categories: Category[] = [
         longDescription:
           'The KV Database is a named, multi-owner key-value store on the Convex lattice with signed replicas. Values are not just strings — it supports rich data types modelled on Redis (counters, lists, sets, sorted sets, hashes), all with lattice merge semantics so concurrent edits from different replicas converge.\n\nEach owner\'s namespace is cryptographically signed, so replicas can be distributed widely without trusting intermediaries. Ideal for user profiles, session state, caches, and application data that benefits from disconnected operation.',
         repo: 'https://github.com/Convex-Dev/convex',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-core' },
+        ],
         tags: ['kv', 'database', 'signed'],
         status: 'active',
         licensing: 'open-source',
@@ -162,6 +176,9 @@ export const categories: Category[] = [
         longDescription:
           'LatticeMQ is a distributed message queue modelled after Kafka, built on the Convex lattice. It offers a two-level hierarchy of topics and partitions, where each partition is an append-only log. Producers write concurrently; consumers read by offset; all of it merges lattice-deterministically across replicas.\n\nLatticeMQ is useful when you need durable, ordered streams but want the replication, integrity, and decentralisation properties of lattice storage rather than a coordinator-based broker.',
         repo: 'https://github.com/Convex-Dev/convex',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-core' },
+        ],
         tags: ['queue', 'pubsub', 'messaging'],
         status: 'active',
         licensing: 'open-source',
@@ -172,6 +189,9 @@ export const categories: Category[] = [
         description:
           'Full consensus peer you can embed directly in a JVM — participate in the Convex network from your own application process.',
         repo: 'https://github.com/Convex-Dev/convex',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-peer' },
+        ],
         tags: ['peer', 'consensus', 'embedded'],
       },
       {
@@ -179,6 +199,9 @@ export const categories: Category[] = [
         description:
           'Lightweight networked lattice sync server. Speaks the binary protocol to exchange and merge lattice values without running full peer consensus.',
         repo: 'https://github.com/Convex-Dev/convex',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-peer' },
+        ],
         tags: ['node', 'sync', 'p2p'],
       },
     ],
@@ -193,12 +216,18 @@ export const categories: Category[] = [
         description:
           'Java library for building with core lattice primitives — CAD3 data structures, immutable cells, lattice types, and the CVM.',
         repo: 'https://github.com/Convex-Dev/convex',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-core' },
+        ],
         tags: ['java', 'core', 'cad3'],
       },
       {
         name: 'convex-java',
         description: 'Java / JVM client API for the Convex peer network — transactions, queries, and state access.',
         repo: 'https://github.com/Convex-Dev/convex-java',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-java' },
+        ],
         tags: ['java', 'client'],
       },
       {
@@ -243,6 +272,9 @@ export const categories: Category[] = [
         description:
           'Hosted Convex testnet with a ready-to-use MCP endpoint — plug any MCP-capable agent straight into a live lattice network.',
         repo: 'https://github.com/Convex-Dev/spaces-testnet',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/world.convex/convex-restapi' },
+        ],
         tags: ['mcp', 'convex', 'testnet'],
         mcp: {
           endpoint: 'https://mikera1337-convex-testnet.hf.space/mcp',
@@ -255,6 +287,9 @@ export const categories: Category[] = [
           'MCP server built into the Covia venue. Exposes agents, assets, DLFS, Convex queries, vaults, and grid execution to AI clients.',
         repo: 'https://github.com/covia-ai/covia',
         docs: 'https://docs.covia.ai',
+        links: [
+          { label: 'Javadoc', url: 'https://javadoc.io/doc/ai.covia/venue' },
+        ],
         tags: ['mcp', 'covia', 'agents'],
       },
       {
