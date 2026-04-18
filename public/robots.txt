@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://brittleboye.github.io/awesome-lattice/sitemap-index.xml

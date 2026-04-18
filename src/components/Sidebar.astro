@@ -1,0 +1,29 @@
+---
+import { categories } from '../data/projects';
+
+interface Props {
+  activeId: string;
+}
+
+const { activeId } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const joinBase = (id: string) => `${base}${base.endsWith('/') ? '' : '/'}${id}`;
+---
+
+<aside class="sidebar" aria-label="Categories">
+  <div class="sidebar-label">Categories</div>
+  <ul class="sidebar-list">
+    {categories.map((c, i) => {
+      const isActive = c.id === activeId;
+      const href = i === 0 ? base : joinBase(c.id);
+      return (
+        <li>
+          <a href={href} class={isActive ? 'active' : ''} aria-current={isActive ? 'page' : undefined}>
+            <span>{c.title}</span>
+            <span class="count">{c.projects.length}</span>
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</aside>

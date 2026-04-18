@@ -4,24 +4,55 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  hideIntro?: boolean;
 }
 
-const { title, description = 'A curated directory of lattice-powered tools, libraries, and projects.' } = Astro.props;
-const base = import.meta.env.BASE_URL;
+const { title, description = 'A curated directory of lattice-powered tools, libraries, and resources.', hideIntro = false } = Astro.props;
+const rawBase = import.meta.env.BASE_URL;
+const normBase = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
+const base = normBase + '/';
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const aboutPath = `${normBase}/about`;
+const isAbout = currentPath === aboutPath;
+const isDirectory = !isAbout;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const siteRoot = new URL(base, Astro.site).toString();
+const ogImage = new URL(`${base}og-image.svg`, Astro.site).toString();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Awesome Lattice',
+  url: siteRoot,
+  description: 'A curated directory of lattice-powered tools, libraries, and resources.',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Awesome Lattice',
+  },
+};
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="canonical" href={canonical} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="Awesome Lattice" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <meta name="theme-color" content="#0b0f17" />
     <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <header class="site-header">
@@ -49,22 +80,31 @@ const base = import.meta.env.BASE_URL;
           <span>Awesome Lattice</span>
         </a>
         <nav class="nav">
-          <a href="#ecosystem">Ecosystem</a>
+          <a href={base} class={isDirectory ? 'active' : ''} aria-current={isDirectory ? 'page' : undefined}>Directory</a>
+          <a href={aboutPath} class={isAbout ? 'active' : ''} aria-current={isAbout ? 'page' : undefined}>About</a>
           <a href="https://github.com/brittleboye/awesome-lattice" rel="noopener">GitHub</a>
         </nav>
       </div>
     </header>
 
     <main class="container">
+      {!hideIntro && (
+        <section class="intro">
+          <p>
+            Explore the lattice ecosystem — platforms, libraries, MCP servers,
+            apps, and the organisations building on a new foundation for
+            decentralised systems.
+          </p>
+        </section>
+      )}
       <slot />
     </main>
 
     <footer class="site-footer">
       <div class="container">
         <p>
-          Curated by <a href="https://github.com/brittleboye" rel="noopener">brittleboye</a>.
-          Suggest additions via
-          <a href="https://github.com/brittleboye/awesome-lattice/issues" rel="noopener">GitHub issues</a>.
+          Suggest additions on
+          <a href="https://github.com/brittleboye/awesome-lattice/issues" rel="noopener">GitHub</a>.
         </p>
       </div>
     </footer>

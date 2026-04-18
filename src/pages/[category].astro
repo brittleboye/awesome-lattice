@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { categories } from '../data/projects';
+
+export function getStaticPaths() {
+  // Skip the first category — it's served at the site root.
+  return categories.slice(1).map((category) => ({
+    params: { category: category.id },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+---
+
+<BaseLayout
+  title={`${category.title} — Awesome Lattice`}
+  description={category.description}
+>
+  <div class="layout">
+    <Sidebar activeId={category.id} />
+    <div>
+      <header class="page-head">
+        <h1>{category.title}</h1>
+        <p>{category.description}</p>
+      </header>
+      <div class="card-grid">
+        {category.projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

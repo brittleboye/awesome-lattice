@@ -1,43 +1,45 @@
-# Astro Starter Kit: Minimal
+# Awesome Lattice
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+A curated directory of tools, libraries, and resources built on lattice technology.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Live site: https://brittleboye.github.io/awesome-lattice/
 
-## 🚀 Project Structure
+Lattice-based systems let independent actors merge state deterministically, without coordination or central authority. This site is a signposting index of the platforms, SDKs, MCP servers, embedded engines, apps, and organisations building with them — every entry links straight to the source.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Structure
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- `src/data/projects.ts` — category and project definitions (single source of truth for entries)
+- `src/pages/index.astro` — root page, renders the first category
+- `src/pages/[category].astro` — dynamic route for remaining categories
+- `src/pages/about.astro` — about page
+- `src/layouts/BaseLayout.astro` — page shell, nav, SEO meta, JSON-LD
+- `src/components/Sidebar.astro` — category navigation
+- `src/components/ProjectCard.astro` — project card
+- `src/styles/global.css` — theme and layout
+- `public/` — static assets (favicon, og-image, robots.txt)
+- `.github/workflows/deploy.yml` — GitHub Pages deploy via Actions
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Contributing
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Missing a project? Open an issue or PR:
 
-Any static assets, like images, can be placed in the `public/` directory.
+- https://github.com/brittleboye/awesome-lattice/issues
 
-## 🧞 Commands
+To add an entry, edit `src/data/projects.ts` — find the right category and append a project object with `name`, `description`, and the relevant `repo`/`homepage`/`docs` links.
 
-All commands are run from the root of the project, from a terminal:
+## Development
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+Requires Node.js 22+ and pnpm.
 
-## 👀 Want to learn more?
+| Command         | Action                                         |
+| :-------------- | :--------------------------------------------- |
+| `pnpm install`  | Install dependencies                           |
+| `pnpm dev`      | Start local dev server (base path `/`)         |
+| `pnpm build`    | Build static site to `./dist/`                 |
+| `pnpm preview`  | Preview the production build locally           |
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The site deploys automatically to GitHub Pages on push to `main` via `.github/workflows/deploy.yml`. Production builds use base path `/awesome-lattice`; dev uses `/` for local parity.
+
+## Licence
+
+Content licensed for reuse with attribution. Third-party project names, logos, and marks belong to their respective owners.
