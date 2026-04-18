@@ -487,6 +487,23 @@ export const categories: Category[] = [
         },
       },
       {
+        name: 'Decentralise the World via the Clojure Philosophy',
+        slug: 'decentralise-the-world-clojure-philosophy',
+        description:
+          'Adam Helins — reClojure 2021. How the Clojure worldview (immutability, persistent data, values over places) maps onto decentralisation and the Convex lattice.',
+        longDescription:
+          'Adam Helins presents at reClojure 2021. The talk explores why Clojure\'s core design decisions — immutability, persistent data structures, separation of identity and value — are a natural fit for decentralised systems, and walks through how Convex applies those ideas to build a lattice-based consensus platform.\n\nNote: the original recording has an audio sync issue.',
+        homepage: 'https://www.youtube.com/watch?v=c9giCgdPF14',
+        tags: ['talk', 'clojure', 'philosophy'],
+        badge: 'Talk',
+        video: {
+          url: 'https://www.youtube.com/watch?v=c9giCgdPF14',
+          uploadDate: '2021-12-01',
+          speaker: 'Adam Helins',
+          event: 'reClojure 2021',
+        },
+      },
+      {
         name: 'Convex — Data Lattice and Convergent Storage',
         slug: 'convex-data-lattice-and-convergent-storage',
         description:
